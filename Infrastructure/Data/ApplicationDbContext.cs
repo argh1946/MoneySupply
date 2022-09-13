@@ -9,6 +9,9 @@ namespace Infrastructure.Data
         public ApplicationDbContext() { }
 
         public DbSet<AtmCrs> AtmCrs { get; set; }
+        public DbSet<Request> Request { get; set; }
+        public DbSet<RequestStatus> RequestStatus { get; set; }
+        public DbSet<Status> Status { get; set; }
 
     }
 }
