@@ -33,7 +33,7 @@ namespace WebApi.Controllers
             //var reponse = PaginationHelper.CreateReponse<AtmCrsVM>(result);
             string[] err = {"", ""};
             var reponse = ResponseHelper.CreateReponse<AtmCrsVM>(result, false,err);
-
+            var aa = 11;
             return Ok(reponse);
         }
 
