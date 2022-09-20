@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Contracts
 {
-    public interface IAsyncGenericRepository<T> where T : EntityBase
+    public interface IAsyncGenericRepository<T> where T : BaseEntity
     {
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null,

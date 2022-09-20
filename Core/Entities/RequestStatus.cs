@@ -9,7 +9,7 @@ using Core.Contracts;
 
 namespace Core.Entities
 {
-    public class RequestStatus : EntityBase
+    public class RequestStatus : BaseTable
     {
         [Display(Name = "توضیحات")]
         [MaxLength(400, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]

@@ -9,7 +9,7 @@ using Core.Contracts;
 
 namespace Core.Entities
 {
-    public class AtmCrs : EntityBase
+    public class AtmCrs : BaseEntity
     {
         public AtmCrs()
         {

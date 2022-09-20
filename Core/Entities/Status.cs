@@ -9,7 +9,7 @@ using Core.Contracts;
 
 namespace Core.Entities
 {
-    public class Status : EntityBase
+    public class Status : BaseEntity
     {
         public Status()
         {

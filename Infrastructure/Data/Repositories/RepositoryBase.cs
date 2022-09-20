@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
-    public abstract class RepositoryBase<T> : IAsyncGenericRepository<T> where T : EntityBase
+    public abstract class RepositoryBase<T> : IAsyncGenericRepository<T> where T : BaseEntity
     {
         private readonly DbSet<T> dbSet;
         protected ApplicationDbContext _db { get; private set; }
