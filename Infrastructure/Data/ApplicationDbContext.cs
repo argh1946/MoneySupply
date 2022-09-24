@@ -12,6 +12,8 @@ namespace Infrastructure.Data
         public DbSet<Request> Request { get; set; }
         public DbSet<RequestStatus> RequestStatus { get; set; }
         public DbSet<Status> Status { get; set; }
+        public DbSet<MoneyType> MoneyType { get; set; }
+
 
     }
 }

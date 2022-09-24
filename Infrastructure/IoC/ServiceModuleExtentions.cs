@@ -3,6 +3,11 @@ using Core.Contracts;
 using Infrastructure.Data;
 using System.Linq;
 using Core.Contracts.AtmCrs;
+using Core.Contracts.MoneyType;
+using Core.Contracts.Status;
+using Infrastructure.Data.Repositories;
+using Core.Contracts.RequestStatus;
+using Core.Contracts.Request;
 
 namespace Infrastructure.IoC
 {
@@ -12,6 +17,15 @@ namespace Infrastructure.IoC
         {
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
             serviceCollection.AddScoped<IAtmCrsRepository, AtmCrsRepository>();           
+            serviceCollection.AddScoped<IMoneyTypeRepository, MoneyTypeRepository>();           
+            serviceCollection.AddScoped<IStatusRepository, StatusRepository>();           
+            serviceCollection.AddScoped<IRequestStatusRepository, RequestStatusRepository>();           
+            serviceCollection.AddScoped<IRequestMoneySupplyRepository, RequestMoneySupplyRepository>();           
+            serviceCollection.AddScoped<IRequestEFardaRepository, RequestEFardaRepository>();           
+            serviceCollection.AddScoped<IRequestOperationDepartmentRepository, RequestOperationDepartmentRepository>();           
+            serviceCollection.AddScoped<IRequestTearsuryAssistantRepository, RequestTearsuryAssistantRepository>();           
+            serviceCollection.AddScoped<IRequestTreasuryAccountantRepository, RequestTreasuryAccountantRepository>();           
+            serviceCollection.AddScoped<IRequestTreasuryManagerRepository, RequestTreasuryManagerRepository>();           
         }
     }
 }

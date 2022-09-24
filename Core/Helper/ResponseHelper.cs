@@ -24,12 +24,25 @@ namespace Core.Helper
         //    return respose;
         //}
 
-        public static ResponseMessage<IEnumerable<T>> CreateReponse<T>(IEnumerable<T> data, bool success, string[] Errors = null,  string? message = null) 
+        public static ResponseMessage<T> CreateReponse<T>(T data, bool success, string[]? Errors = null, string? message = null)
         {
-            var respose = new ResponseMessage<IEnumerable<T>>(data);
-            respose.Succeeded = success;
-            respose.Errors = Errors;
-            respose.Message = message;
+            var respose = new ResponseMessage<T>(data)
+            {
+                Succeeded = success,
+                Errors = Errors,
+                Message = message
+            };
+            return respose;
+        }
+
+        public static ResponseMessage<IEnumerable<T>> CreateReponse<T>(IEnumerable<T> data, bool success, string[]? Errors = null,  string? message = null) 
+        {
+            var respose = new ResponseMessage<IEnumerable<T>>(data)
+            {
+                Succeeded = success,
+                Errors = Errors,
+                Message = message
+            };
             return respose;
         }
 

@@ -1,5 +1,7 @@
 ﻿using Core.Contracts;
 using Core.Contracts.AtmCrs;
+using Core.Contracts.MoneyType;
+using Core.Contracts.Status;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Data
@@ -44,5 +46,7 @@ namespace Infrastructure.Data
         }
 
         public IAtmCrsRepository AtmCrsRepository => _serviceProvider.GetRequiredService<IAtmCrsRepository>();       
+        public IMoneyTypeRepository MoneyTypeRepository => _serviceProvider.GetRequiredService<IMoneyTypeRepository>();       
+        public IStatusRepository StatusRepository => _serviceProvider.GetRequiredService<IStatusRepository>();       
     }
 }

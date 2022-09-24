@@ -1,39 +1,37 @@
 ﻿using AutoMapper;
-using Core.Contracts;
-using Core.Contracts.AtmCrs;
+using Core.Contracts.Status;
 using Core.DTOs;
 using Core.Entities;
 using Core.Filter;
 using Core.Helper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 
 namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AtmCrsController : ControllerBase
+    public class StatusController : ControllerBase
     {
 
-        protected readonly IAtmCrsService _atmCrsService;
+        protected readonly IStatusService _StatusService;
         private readonly IMapper _mapper;
-        private ILogger<AtmCrsController> _logger;
+        private ILogger<StatusController> _logger;
 
 
-        public AtmCrsController(IAtmCrsService atmCrsService,IMapper mapper, ILogger<AtmCrsController> logger)
+        public StatusController(IStatusService StatusService, IMapper mapper, ILogger<StatusController> logger)
         {
-            _atmCrsService = atmCrsService;
+            _StatusService = StatusService;
             _mapper = mapper;
             _logger = logger;
         }
-       
+
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetAllAtmCrs()
+        public async Task<IActionResult> GetAllStatus()
         {
             try
             {
-                var data = await _atmCrsService.GetAllAsync();
-                var result = _mapper.Map<IEnumerable<AtmCrs>, IEnumerable<AtmCrsVM>>(data);
+                var data = await _StatusService.GetAllAsync();
+                var result = _mapper.Map<IEnumerable<Status>, IEnumerable<StatusVM>>(data);
                 string[] err = { "" };
                 var reponse = ResponseHelper.CreateReponse(result, true, err);
                 return Ok(reponse);
@@ -42,18 +40,18 @@ namespace WebApi.Controllers
             {
                 _logger.LogError(ex, "خطا");
                 string[] err = { ex.Message };
-                var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
+                var reponse = ResponseHelper.CreateReponse((IEnumerable<StatusVM>)null, false, err);
                 return BadRequest(reponse);
-            }            
+            }
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetByIdAtmCrs(int id)
+        public async Task<IActionResult> GetByIdStatus(int id)
         {
             try
             {
-                var data = await _atmCrsService.GetByIdAsync(id);
-                var result = _mapper.Map<AtmCrs, AtmCrsVM>(data);
+                var data = await _StatusService.GetByIdAsync(id);
+                var result = _mapper.Map<Status, StatusVM>(data);
                 string[] err = { "" };
                 var reponse = ResponseHelper.CreateReponse(result, true, err);
                 return Ok(reponse);
@@ -62,17 +60,17 @@ namespace WebApi.Controllers
             {
                 _logger.LogError(ex, "خطا");
                 string[] err = { ex.Message };
-                var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
+                var reponse = ResponseHelper.CreateReponse((StatusVM)null, false, err);
                 return BadRequest(reponse);
             }
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> AddAtmCrsAsync(AtmCrs AtmCrs)
+        public async Task<IActionResult> AddStatusAsync(Status Status)
         {
             try
             {
-                await _atmCrsService.AddAsync(AtmCrs);
+                await _StatusService.AddAsync(Status);
                 string[] err = { "" };
                 return Ok();
             }
@@ -81,14 +79,15 @@ namespace WebApi.Controllers
                 _logger.LogError(ex.Message);
                 return BadRequest();
             }
+
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateAtmCrs(AtmCrs AtmCrs)
+        public async Task<IActionResult> UpdateStatus(Status Status)
         {
             try
             {
-                await _atmCrsService.Update(AtmCrs);
+                await _StatusService.Update(Status);
                 string[] err = { "" };
                 return Ok();
             }
@@ -97,14 +96,15 @@ namespace WebApi.Controllers
                 _logger.LogError(ex.Message);
                 return NotFound();
             }
+
         }
 
         [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteAtmCrsAsync(int id)
+        public async Task<IActionResult> DeleteStatusAsync(int id)
         {
             try
             {
-                await _atmCrsService.DeleteAsync(id);
+                await _StatusService.DeleteAsync(id);
                 string[] err = { "" };
                 return Ok();
             }
@@ -113,6 +113,7 @@ namespace WebApi.Controllers
                 _logger.LogError(ex.Message);
                 return NotFound();
             }
+
         }
     }
 }

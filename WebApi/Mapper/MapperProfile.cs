@@ -9,6 +9,8 @@ namespace React.Mapper
         public MapperProfile()
         {
             CreateMap<AtmCrs, AtmCrsVM>().ReverseMap();
+            CreateMap<MoneyType, MoneyTypeVM>().ReverseMap();
+            CreateMap<Status, StatusVM>().ReverseMap();
         }
     }
 }

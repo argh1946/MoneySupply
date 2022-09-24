@@ -19,12 +19,10 @@ namespace Core.Entities
 
         [Display(Name = "مبلغ")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(150, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
         public double Amount { get; set; }
 
         [Display(Name = "فعال؟")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(150, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
         public bool IsActive { get; set; }
 
 
