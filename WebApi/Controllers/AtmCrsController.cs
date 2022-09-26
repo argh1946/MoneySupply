@@ -31,7 +31,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetAllAtmCrs()
         {
             try
-            {
+            {             
                 var data = await _atmCrsService.GetAllAsync();
                 var result = _mapper.Map<IEnumerable<AtmCrs>, IEnumerable<AtmCrsVM>>(data);
                 var reponse = ResponseHelper.CreateReponse(result, true, null);
