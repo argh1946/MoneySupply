@@ -11,6 +11,7 @@ namespace React.Mapper
             CreateMap<AtmCrs, AtmCrsVM>().ReverseMap();
             CreateMap<MoneyType, MoneyTypeVM>().ReverseMap();
             CreateMap<Status, StatusVM>().ReverseMap();
+            CreateMap<Request, RequestMoneySupplyVM>().ReverseMap();
         }
     }
 }

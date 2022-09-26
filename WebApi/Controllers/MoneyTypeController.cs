@@ -39,7 +39,7 @@ namespace WebApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message };
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
                 var reponse = ResponseHelper.CreateReponse((IEnumerable<MoneyTypeVM>)null, false, err );
                 return BadRequest(reponse);
             }       
@@ -59,8 +59,8 @@ namespace WebApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message };
-                var reponse = ResponseHelper.CreateReponse((MoneyTypeVM)null, false, err);
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((IEnumerable<MoneyTypeVM>)null, false, err);
                 return BadRequest(reponse);
             }
         }
@@ -71,13 +71,15 @@ namespace WebApi.Controllers
             try
             {
                 await _MoneyTypeService.AddAsync(moneyType);
-                string[] err = { "" };
-                return Ok();
+                var response = ResponseHelper.CreateReponse((MoneyTypeVM)null, true, null);
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                return BadRequest();
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((IEnumerable<MoneyTypeVM>)null, false, err);
+                return BadRequest(reponse);
             }
             
         }
@@ -88,13 +90,15 @@ namespace WebApi.Controllers
             try
             {
                 await _MoneyTypeService.Update(moneyType);
-                string[] err = { "" };
-                return Ok();
+                var response = ResponseHelper.CreateReponse((MoneyTypeVM)null, true, null);
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                return NotFound();
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((IEnumerable<MoneyTypeVM>)null, false, err);
+                return BadRequest(reponse);
             }
 
         }
@@ -105,13 +109,15 @@ namespace WebApi.Controllers
             try
             {
                 await _MoneyTypeService.DeleteAsync(id);
-                string[] err = { "" };
-                return Ok();
+                var response = ResponseHelper.CreateReponse((MoneyTypeVM)null, true, null);
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                return NotFound();
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((IEnumerable<MoneyTypeVM>)null, false, err);
+                return BadRequest(reponse);
             }
 
         }

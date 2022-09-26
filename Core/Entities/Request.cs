@@ -16,6 +16,10 @@ namespace Core.Entities
             RequestStatus = new List<RequestStatus>();
         }
 
+        public int AtmCrsId { get; set; }
+        public int StatusId { get; set; }
+
+
         [Display(Name = "نوع درخواست")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(5, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
@@ -32,6 +36,12 @@ namespace Core.Entities
         [Display(Name = "سری کاست")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public int CassetteSeries { get; set; }
+
+        [Display(Name = "مانده دستگاه")]
+        public int Remaining { get; set; }
+
+        [Display(Name = "فزونی دستگاه")]
+        public int Excess { get; set; }
 
         #region اسکناس تحویل
 
@@ -283,7 +293,5 @@ namespace Core.Entities
         #endregion
 
         public ICollection<RequestStatus> RequestStatus { get; set; }
-
-
     }
 }

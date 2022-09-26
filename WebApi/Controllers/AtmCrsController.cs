@@ -34,14 +34,13 @@ namespace WebApi.Controllers
             {
                 var data = await _atmCrsService.GetAllAsync();
                 var result = _mapper.Map<IEnumerable<AtmCrs>, IEnumerable<AtmCrsVM>>(data);
-                string[] err = { "" };
-                var reponse = ResponseHelper.CreateReponse(result, true, err);
+                var reponse = ResponseHelper.CreateReponse(result, true, null);
                 return Ok(reponse);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message };
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
                 var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
                 return BadRequest(reponse);
             }            
@@ -54,14 +53,13 @@ namespace WebApi.Controllers
             {
                 var data = await _atmCrsService.GetByIdAsync(id);
                 var result = _mapper.Map<AtmCrs, AtmCrsVM>(data);
-                string[] err = { "" };
-                var reponse = ResponseHelper.CreateReponse(result, true, err);
+                var reponse = ResponseHelper.CreateReponse(result, true, null);
                 return Ok(reponse);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message };
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
                 var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
                 return BadRequest(reponse);
             }
@@ -73,13 +71,16 @@ namespace WebApi.Controllers
             try
             {
                 await _atmCrsService.AddAsync(AtmCrs);
-                string[] err = { "" };
-                return Ok();
+                var response = ResponseHelper.CreateReponse((AtmCrsVM)null, true, null);
+                return Ok(response);
+
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                return BadRequest();
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
+                return BadRequest(reponse);
             }
         }
 
@@ -89,13 +90,16 @@ namespace WebApi.Controllers
             try
             {
                 await _atmCrsService.Update(AtmCrs);
-                string[] err = { "" };
-                return Ok();
+                var response = ResponseHelper.CreateReponse((AtmCrsVM)null, true, null);
+                return Ok(response);
+
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                return NotFound();
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
+                return BadRequest(reponse);
             }
         }
 
@@ -105,13 +109,16 @@ namespace WebApi.Controllers
             try
             {
                 await _atmCrsService.DeleteAsync(id);
-                string[] err = { "" };
-                return Ok();
+                var response = ResponseHelper.CreateReponse((AtmCrsVM)null, true, null);
+                return Ok(response);
+
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                return NotFound();
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
+                return BadRequest(reponse);
             }
         }
     }

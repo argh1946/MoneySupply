@@ -14,7 +14,7 @@ namespace Core.Entities
         public Status()
         {
             RequestStatus = new List<RequestStatus>();
-            Request = new List<Request>();
+            //Request = new List<Request>();
         }
        
         [Display(Name = "عنوان")]
@@ -24,9 +24,6 @@ namespace Core.Entities
                 
 
         public ICollection<RequestStatus> RequestStatus { get; set; }
-        public ICollection<Request> Request { get; set; }
-
-
-
+        //public ICollection<Request> Request { get; set; }
     }
 }

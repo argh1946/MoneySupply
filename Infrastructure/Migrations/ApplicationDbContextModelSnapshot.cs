@@ -77,11 +77,9 @@ namespace Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<double>("Amount")
-                        .HasMaxLength(150)
                         .HasColumnType("float");
 
                     b.Property<bool>("IsActive")
-                        .HasMaxLength(150)
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
@@ -102,7 +100,7 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AtmCrsId")
+                    b.Property<int>("AtmCrsId")
                         .HasColumnType("int");
 
                     b.Property<double?>("CAmount1")
@@ -231,11 +229,17 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int>("Excess")
+                        .HasColumnType("int");
+
                     b.Property<int>("LetterNo")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Remaining")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime2");
@@ -361,14 +365,12 @@ namespace Infrastructure.Migrations
                     b.Property<string>("RtTotalAmountToString")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StatusId")
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AtmCrsId");
-
-                    b.HasIndex("StatusId");
 
                     b.ToTable("Request");
                 });
@@ -381,12 +383,6 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Creator")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
@@ -395,13 +391,10 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar(400)");
 
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("RequestId")
+                    b.Property<int>("RequestId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StatusId")
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -435,22 +428,24 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Core.Entities.AtmCrs", null)
                         .WithMany("Request")
-                        .HasForeignKey("AtmCrsId");
-
-                    b.HasOne("Core.Entities.Status", null)
-                        .WithMany("Request")
-                        .HasForeignKey("StatusId");
+                        .HasForeignKey("AtmCrsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.Entities.RequestStatus", b =>
                 {
                     b.HasOne("Core.Entities.Request", null)
                         .WithMany("RequestStatus")
-                        .HasForeignKey("RequestId");
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Core.Entities.Status", null)
                         .WithMany("RequestStatus")
-                        .HasForeignKey("StatusId");
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.Entities.AtmCrs", b =>
@@ -465,8 +460,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.Status", b =>
                 {
-                    b.Navigation("Request");
-
                     b.Navigation("RequestStatus");
                 });
 #pragma warning restore 612, 618

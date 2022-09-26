@@ -11,6 +11,9 @@ namespace Core.Entities
 {
     public class RequestStatus : BaseEntity
     {
+        public int StatusId { get; set; }
+        public int RequestId { get; set; }
+
         [Display(Name = "توضیحات")]
         [MaxLength(400, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
         public string Description { get; set; }

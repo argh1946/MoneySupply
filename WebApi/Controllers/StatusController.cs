@@ -32,16 +32,15 @@ namespace WebApi.Controllers
             {
                 var data = await _StatusService.GetAllAsync();
                 var result = _mapper.Map<IEnumerable<Status>, IEnumerable<StatusVM>>(data);
-                string[] err = { "" };
-                var reponse = ResponseHelper.CreateReponse(result, true, err);
-                return Ok(reponse);
+                var response = ResponseHelper.CreateReponse(result, true, null);
+                return Ok(response);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message };
-                var reponse = ResponseHelper.CreateReponse((IEnumerable<StatusVM>)null, false, err);
-                return BadRequest(reponse);
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var response = ResponseHelper.CreateReponse((IEnumerable<StatusVM>)null, false, err);
+                return BadRequest(response);
             }
         }
 
@@ -52,16 +51,15 @@ namespace WebApi.Controllers
             {
                 var data = await _StatusService.GetByIdAsync(id);
                 var result = _mapper.Map<Status, StatusVM>(data);
-                string[] err = { "" };
-                var reponse = ResponseHelper.CreateReponse(result, true, err);
-                return Ok(reponse);
+                var response = ResponseHelper.CreateReponse(result, true, null);
+                return Ok(response);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message };
-                var reponse = ResponseHelper.CreateReponse((StatusVM)null, false, err);
-                return BadRequest(reponse);
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var response = ResponseHelper.CreateReponse((StatusVM)null, false, err);
+                return BadRequest(response);
             }
         }
 
@@ -71,13 +69,15 @@ namespace WebApi.Controllers
             try
             {
                 await _StatusService.AddAsync(Status);
-                string[] err = { "" };
-                return Ok();
+                var response = ResponseHelper.CreateReponse((StatusVM)null, true, null);
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                return BadRequest();
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var response = ResponseHelper.CreateReponse((StatusVM)null, false, err);
+                return BadRequest(response);
             }
 
         }
@@ -88,13 +88,15 @@ namespace WebApi.Controllers
             try
             {
                 await _StatusService.Update(Status);
-                string[] err = { "" };
-                return Ok();
+                var response = ResponseHelper.CreateReponse((StatusVM)null, true, null);
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                return NotFound();
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((StatusVM)null, false, err);
+                return BadRequest(reponse);
             }
 
         }
@@ -105,13 +107,15 @@ namespace WebApi.Controllers
             try
             {
                 await _StatusService.DeleteAsync(id);
-                string[] err = { "" };
-                return Ok();
+                var response = ResponseHelper.CreateReponse((StatusVM)null, true, null);
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                return NotFound();
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((StatusVM)null, false, err);
+                return BadRequest(reponse);
             }
 
         }
