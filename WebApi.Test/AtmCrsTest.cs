@@ -33,8 +33,8 @@ namespace WebApi.Test
         public async Task Should_Return_GetAllAtmCrsOutput_Instance()
         {
             // Arrange
-            IEnumerable<AtmCrs> courseList = new List<AtmCrs>();
-            _atmCrsServiceMock.Setup(p => p.GetAllAsync()).Returns(Task.FromResult(courseList));
+            IEnumerable<AtmCrs> atmCrsList = new List<AtmCrs>();
+            _atmCrsServiceMock.Setup(p => p.GetAllAsync()).Returns(Task.FromResult(atmCrsList));
 
             // Act
             var result = await _atmCrsController.GetAllAtmCrs();
@@ -42,9 +42,24 @@ namespace WebApi.Test
 
             // Assert
             Assert.IsNotNull(okResult);
-            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.AreEqual(StatusCodes.Status200OK, okResult.StatusCode);
         }
 
-       
+        [Test]
+        public async Task Should_Return_AddAtmCrs()
+        {
+            // Arrange
+            _atmCrsServiceMock.Setup(p => p.AddAsync(new AtmCrs()));
+
+            // Act
+            var result = await _atmCrsController.AddAtmCrsAsync(new AtmCrs());
+            var okResult = result as OkObjectResult;
+
+            // Assert
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(StatusCodes.Status200OK, okResult.StatusCode);
+        }
+
+
     }
 }

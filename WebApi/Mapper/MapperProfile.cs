@@ -12,6 +12,7 @@ namespace React.Mapper
             CreateMap<MoneyType, MoneyTypeVM>().ReverseMap();
             CreateMap<Status, StatusVM>().ReverseMap();
             CreateMap<Request, RequestMoneySupplyVM>().ReverseMap();
+            CreateMap<Request, RequestEfardaVM>().ReverseMap();
         }
     }
 }

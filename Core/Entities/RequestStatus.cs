@@ -16,7 +16,7 @@ namespace Core.Entities
 
         [Display(Name = "توضیحات")]
         [MaxLength(400, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Display(Name = "تاریخ و ساعت")]
         public DateTime DateTime { get; set; }

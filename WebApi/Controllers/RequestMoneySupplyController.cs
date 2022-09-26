@@ -52,6 +52,11 @@ namespace WebApi.Controllers
         {
             try
             {
+                request.LetterNo = int.Parse(ConvertToDateTime.ToPersianDate(DateTime.Now,""));
+                request.CreatedDate = DateTime.Now;
+                request.Creator = 0;
+                request.StatusId = 1;
+
                 await _RequestMoneySupplyService.AddAsync(request);
                 var reponse = ResponseHelper.CreateReponse((RequestMoneySupplyVM)null, true, null);
                 return Ok(reponse);

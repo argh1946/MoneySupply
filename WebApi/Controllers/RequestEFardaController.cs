@@ -26,8 +26,63 @@ namespace WebApi.Controllers
             _logger = logger;
         }
 
-        
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetRequestEFarda()
+        {
+            try
+            {
+                var data = await _requestEFardaService.GetRequestEFardaAsync();
+                var result = _mapper.Map<IEnumerable<Request>, IEnumerable<RequestEfardaVM>>(data);
+                var reponse = ResponseHelper.CreateReponse(result, true, null);
+                return Ok(reponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((IEnumerable<RequestMoneySupplyVM>)null, false, err);
+                return BadRequest(reponse);
+            }
+        }
 
-       
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ConfrimRequestAsync(int requestId,string des)
+        {
+            try
+            {
+                await _requestEFardaService.ConfirmEFardaAsync(requestId,des);
+                var reponse = ResponseHelper.CreateReponse((RequestMoneySupplyVM)null, true, null);
+                return Ok(reponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((RequestMoneySupplyVM)null, false, err);
+                return BadRequest(reponse);
+            }
+
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> RejectRequestAsync(int requestId, string des)
+        {
+            try
+            {
+                await _requestEFardaService.RejectEFardaAsync(requestId, des);
+                var reponse = ResponseHelper.CreateReponse((RequestMoneySupplyVM)null, true, null);
+                return Ok(reponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((RequestMoneySupplyVM)null, false, err);
+                return BadRequest(reponse);
+            }
+
+        }
+
+
     }
 }
