@@ -14,14 +14,14 @@ namespace WebApi.Controllers
     public class RequestTearsuryAssistantController : ControllerBase
     {
 
-        protected readonly IRequestTearsuryAssistantService _RequestTearsuryAssistantService;
+        protected readonly IRequestTearsuryAssistantService _requestTearsuryAssistantService;
         private readonly IMapper _mapper;
         private ILogger<RequestTearsuryAssistantController> _logger;
 
 
         public RequestTearsuryAssistantController(IRequestTearsuryAssistantService RequestTearsuryAssistantService, IMapper mapper, ILogger<RequestTearsuryAssistantController> logger)
         {
-            _RequestTearsuryAssistantService = RequestTearsuryAssistantService;
+            _requestTearsuryAssistantService = RequestTearsuryAssistantService;
             _mapper = mapper;
             _logger = logger;
         }

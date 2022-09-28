@@ -40,7 +40,7 @@ namespace WebApi.Controllers
             {
                 _logger.LogError(ex, "خطا");
                 string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((IEnumerable<RequestMoneySupplyVM>)null, false, err);
+                var reponse = ResponseHelper.CreateReponse((IEnumerable<RequestEfardaVM>)null, false, err);
                 return BadRequest(reponse);
             }
         }
@@ -51,14 +51,14 @@ namespace WebApi.Controllers
             try
             {
                 await _requestEFardaService.ConfirmEFardaAsync(requestId,des);
-                var reponse = ResponseHelper.CreateReponse((RequestMoneySupplyVM)null, true, null);
+                var reponse = ResponseHelper.CreateReponse((RequestEfardaVM)null, true, null);
                 return Ok(reponse);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطا");
                 string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((RequestMoneySupplyVM)null, false, err);
+                var reponse = ResponseHelper.CreateReponse((RequestEfardaVM)null, false, err);
                 return BadRequest(reponse);
             }
 
@@ -70,14 +70,14 @@ namespace WebApi.Controllers
             try
             {
                 await _requestEFardaService.RejectEFardaAsync(requestId, des);
-                var reponse = ResponseHelper.CreateReponse((RequestMoneySupplyVM)null, true, null);
+                var reponse = ResponseHelper.CreateReponse((RequestEfardaVM)null, true, null);
                 return Ok(reponse);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "خطا");
                 string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((RequestMoneySupplyVM)null, false, err);
+                var reponse = ResponseHelper.CreateReponse((RequestEfardaVM)null, false, err);
                 return BadRequest(reponse);
             }
 

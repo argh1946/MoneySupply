@@ -8,5 +8,8 @@ namespace Core.Contracts.Request
 {
     public interface IRequestTearsuryAssistantService
     {
+        Task<IEnumerable<Entities.Request>> GetSettlementTearsuryAssistantAsync();
+        Task ConfirmSettlementTearsuryAssistantAsync(int requestId, string des);
+        Task RejectSettlementTearsuryAssistantAsync(int requestId, string des);
     }
 }
