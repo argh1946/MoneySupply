@@ -1,5 +1,6 @@
 ﻿using Core.Contracts;
 using Core.Contracts.AtmCrs;
+using Core.Contracts.FileAttachment;
 using Core.Contracts.MoneyType;
 using Core.Contracts.Request;
 using Core.Contracts.RequestStatus;
@@ -57,5 +58,6 @@ namespace Infrastructure.Data
         public IRequestTreasuryAccountantRepository RequestTreasuryAccountantRepository => _serviceProvider.GetRequiredService<IRequestTreasuryAccountantRepository>();       
         public IRequestTreasuryManagerRepository RequestTreasuryManagerRepository => _serviceProvider.GetRequiredService<IRequestTreasuryManagerRepository>();       
         public IRequestEFardaRepository RequestEFardaRepository => _serviceProvider.GetRequiredService<IRequestEFardaRepository>();       
+        public IFileAttachmentRepository FileAttachmentRepository => _serviceProvider.GetRequiredService<IFileAttachmentRepository>();       
     }
 }

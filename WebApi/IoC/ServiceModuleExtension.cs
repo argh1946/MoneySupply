@@ -21,7 +21,6 @@ namespace React.IoC
             });
 
             IMapper mapper = mappingConfig.CreateMapper();
-
             return mapper;
         }
     }

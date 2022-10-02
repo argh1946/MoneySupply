@@ -293,5 +293,6 @@ namespace Core.Entities
         #endregion
 
         public ICollection<RequestStatus> RequestStatus { get; set; }
+        public ICollection<FileAttachment> FileAttachment { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Core.Contracts.AtmCrs;
+using Core.Contracts.FileAttachment;
 using Core.Contracts.MoneyType;
 using Core.Contracts.Request;
 using Core.Contracts.RequestStatus;
@@ -21,5 +22,6 @@ namespace Core.Contracts
         IRequestTearsuryAssistantRepository RequestTearsuryAssistantRepository { get; }
         IRequestTreasuryAccountantRepository RequestTreasuryAccountantRepository { get; }
         IRequestTreasuryManagerRepository RequestTreasuryManagerRepository { get; }
+        IFileAttachmentRepository FileAttachmentRepository { get; }
     }
 }

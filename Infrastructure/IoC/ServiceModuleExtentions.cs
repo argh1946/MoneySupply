@@ -8,6 +8,7 @@ using Core.Contracts.Status;
 using Infrastructure.Data.Repositories;
 using Core.Contracts.RequestStatus;
 using Core.Contracts.Request;
+using Core.Contracts.FileAttachment;
 
 namespace Infrastructure.IoC
 {
@@ -26,6 +27,7 @@ namespace Infrastructure.IoC
             serviceCollection.AddScoped<IRequestTearsuryAssistantRepository, RequestTearsuryAssistantRepository>();           
             serviceCollection.AddScoped<IRequestTreasuryAccountantRepository, RequestTreasuryAccountantRepository>();           
             serviceCollection.AddScoped<IRequestTreasuryManagerRepository, RequestTreasuryManagerRepository>();           
+            serviceCollection.AddScoped<IFileAttachmentRepository, FileAttachmentRepository>();           
         }
     }
 }

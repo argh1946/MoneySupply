@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.DTOs;
 using Core.Entities;
+using Core.Helper;
 
 namespace React.Mapper
 {
@@ -13,6 +14,8 @@ namespace React.Mapper
             CreateMap<Status, StatusVM>().ReverseMap();
             CreateMap<Request, RequestMoneySupplyVM>().ReverseMap();
             CreateMap<Request, RequestEfardaVM>().ReverseMap();
+            CreateMap<RequestMoneySupplyInput, Request>()
+                .ForMember(dest => dest.RequestDate, opt => opt.MapFrom(src => ConvertToDateTime.ToDateTime(src.RequestDate))).ReverseMap();
         }
     }
 }
