@@ -13,7 +13,6 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class RequestTearsuryAssistantController : ControllerBase
     {
-
         protected readonly IRequestTearsuryAssistantService _requestTearsuryAssistantService;
         private readonly IMapper _mapper;
         private ILogger<RequestTearsuryAssistantController> _logger;
@@ -26,7 +25,46 @@ namespace WebApi.Controllers
             _logger = logger;
         }
 
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetRequestTearsuryAssistant()
+        {
+            try
+            {
+                var data = await _requestTearsuryAssistantService.GetTearsuryAssistantAsync();
+                var result = _mapper.Map<IEnumerable<Request>, IEnumerable<RequestMoneySupplyVM>>(data);
+                var reponse = ResponseHelper.CreateReponse(result, true, null);
+                return Ok(reponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((IEnumerable<RequestMoneySupplyVM>)null, false, err);
+                return BadRequest(reponse);
+            }
+        }
 
+        [HttpPost("[action]")]
+        public async Task<IActionResult> UpdateRequestAsync(RequestTearsuryAssistantInput req, string des)
+        {
+            try
+            {
+                var request = _mapper.Map<RequestTearsuryAssistantInput, Request>(req);
+                await _requestTearsuryAssistantService.UpdateTearsuryAssistantAsync(request, des);
+                var reponse = ResponseHelper.CreateReponse((RequestEfardaVM)null, true, null);
+                return Ok(reponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "خطا");
+                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
+                var reponse = ResponseHelper.CreateReponse((RequestEfardaVM)null, false, err);
+                return BadRequest(reponse);
+            }
+
+        }
+
+        
 
 
     }

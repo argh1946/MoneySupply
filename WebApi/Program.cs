@@ -2,9 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data;
 using Core.IoC;
 using Infrastructure.IoC;
-using React.IoC;
 using NLog;
 using NLog.Web;
+using WebApi.Middleware;
+using WebApi.IoC;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 try
@@ -43,6 +44,7 @@ try
         app.UseSwaggerUI();
     }
 
+    app.UseMiddleware<ExceptionMiddleware>();
     app.UseAuthorization();
     app.MapControllers();
     app.Run();
