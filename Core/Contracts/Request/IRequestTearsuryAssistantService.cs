@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,7 @@ namespace Core.Contracts.Request
 {
     public interface IRequestTearsuryAssistantService
     {
-        Task<IEnumerable<Entities.Request>> GetSettlementTearsuryAssistantAsync();
-        Task ConfirmSettlementTearsuryAssistantAsync(int requestId, string des);
-        Task RejectSettlementTearsuryAssistantAsync(int requestId, string des);
+        Task<IEnumerable<Entities.Request>> GetTearsuryAssistantAsync();
+        Task UpdateTearsuryAssistantAsync(Entities.Request request, string des);
     }
 }

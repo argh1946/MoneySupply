@@ -1,24 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Core.Contracts;
+using System.Xml.Linq;
 
-namespace Core.Entities
+namespace Core.DTOs
 {
-    public class Request : BaseTable
+
+    public class RequestTearsuryAssistantInput
     {
-        public Request()
-        {
-            RequestStatus = new List<RequestStatus>();
-        }
-
+        public int Id { get; set; }
         public int AtmCrsId { get; set; }
-        public int StatusId { get; set; }
-
 
         [Display(Name = "نوع درخواست")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -33,78 +27,12 @@ namespace Core.Entities
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public int LetterNo { get; set; }
 
-        [Display(Name = "سری کاست")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        public int CassetteSeries { get; set; }
-
         [Display(Name = "مانده دستگاه")]
         public int Remaining { get; set; }
 
         [Display(Name = "فزونی دستگاه")]
         public int Excess { get; set; }
 
-        #region اسکناس تحویل
-
-        [Display(Name = "نوع اسکناس")]
-        public int? DMoneyType1 { get; set; }
-
-        [Display(Name = "تعداد برگ اسکناس")]
-        public int? DMoneyCount1 { get; set; }
-
-        [Display(Name = "مبلغ")]
-        public double? DAmount1 { get; set; }
-
-        [Display(Name = "مبلغ حروفی")]
-        [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
-        public string? DAmountToString1 { get; set; }
-
-        [Display(Name = "نوع اسکناس")]
-        public int? DMoneyType2 { get; set; }
-
-        [Display(Name = "تعداد برگ اسکناس")]
-        public int? DMoneyCount2 { get; set; }
-
-        [Display(Name = "مبلغ")]
-        public double? DAmount2 { get; set; }
-
-        [Display(Name = "مبلغ حروفی")]
-        [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
-        public string? DAmountToString2 { get; set; }
-
-        [Display(Name = "نوع اسکناس")]
-        public int? DMoneyType3 { get; set; }
-
-        [Display(Name = "تعداد برگ اسکناس")]
-        public int? DMoneyCount3 { get; set; }
-
-        [Display(Name = "مبلغ")]
-        public double? DAmount3 { get; set; }
-
-        [Display(Name = "مبلغ حروفی")]
-        [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
-        public string? DAmountToString3 { get; set; }
-
-        [Display(Name = "نوع اسکناس")]
-        public int? DMoneyType4 { get; set; }
-
-        [Display(Name = "تعداد برگ اسکناس")]
-        public int? DMoneyCount4 { get; set; }
-
-        [Display(Name = "مبلغ")]
-        public double? DAmount4 { get; set; }
-
-        [Display(Name = "مبلغ حروفی")]
-        [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
-        public string? DAmountToString4 { get; set; }
-
-        [Display(Name = "مبلغ کل")]
-        public double? DTotalAmount { get; set; }
-
-        [Display(Name = "مبلغ کل حروفی")]
-        [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
-        public string? DTotalAmountToString { get; set; }
-
-        #endregion
 
         #region اسکناس تسویه
 
@@ -292,7 +220,9 @@ namespace Core.Entities
 
         #endregion
 
-        public ICollection<RequestStatus> RequestStatus { get; set; }
-        public ICollection<FileAttachment> FileAttachment { get; set; }
+
+
+
     }
+
 }

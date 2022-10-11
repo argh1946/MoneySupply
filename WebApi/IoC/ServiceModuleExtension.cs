@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using React.Mapper;
 
-namespace React.IoC
+namespace WebApi.IoC
 {
     public static class ServiceModuleExtentions
     {
@@ -21,7 +21,6 @@ namespace React.IoC
             });
 
             IMapper mapper = mappingConfig.CreateMapper();
-
             return mapper;
         }
     }

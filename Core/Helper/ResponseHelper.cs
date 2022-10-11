@@ -24,6 +24,7 @@ namespace Core.Helper
         //    return respose;
         //}
 
+        
         public static ResponseMessage<T> CreateReponse<T>(T data, bool success, string[]? Errors = null, string? message = null)
         {
             var respose = new ResponseMessage<T>(data)

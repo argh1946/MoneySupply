@@ -1,5 +1,6 @@
 ﻿using Core.Contracts;
 using Core.Contracts.AtmCrs;
+using Core.Contracts.FileAttachment;
 using Core.Contracts.MoneyType;
 using Core.Contracts.Request;
 using Core.Contracts.RequestStatus;
@@ -25,6 +26,7 @@ namespace Core.IoC
             serviceCollection.AddScoped<IRequestTearsuryAssistantService, RequestTearsuryAssistantService>();
             serviceCollection.AddScoped<IRequestTreasuryAccountantService, RequestTreasuryAccountantService>();
             serviceCollection.AddScoped<IRequestTreasuryManagerService, RequestTreasuryManagerService>();
+            serviceCollection.AddScoped<IFileAttachmentService ,FileAttachmentService>();
         }
     }
 }

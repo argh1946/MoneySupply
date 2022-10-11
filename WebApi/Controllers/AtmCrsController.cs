@@ -20,18 +20,18 @@ namespace WebApi.Controllers
         private ILogger<AtmCrsController> _logger;
 
 
-        public AtmCrsController(IAtmCrsService atmCrsService,IMapper mapper, ILogger<AtmCrsController> logger)
+        public AtmCrsController(IAtmCrsService atmCrsService, IMapper mapper, ILogger<AtmCrsController> logger)
         {
             _atmCrsService = atmCrsService;
             _mapper = mapper;
             _logger = logger;
         }
-       
+
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAllAtmCrs()
         {
             try
-            {             
+            {
                 var data = await _atmCrsService.GetAllAsync();
                 var result = _mapper.Map<IEnumerable<AtmCrs>, IEnumerable<AtmCrsVM>>(data);
                 var reponse = ResponseHelper.CreateReponse(result, true, null);
@@ -43,7 +43,7 @@ namespace WebApi.Controllers
                 string[] err = { ex.Message + " / " + ex.InnerException?.Message };
                 var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
                 return BadRequest(reponse);
-            }            
+            }
         }
 
         [HttpGet("[action]")]
