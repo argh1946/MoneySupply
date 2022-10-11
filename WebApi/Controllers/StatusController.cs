@@ -22,8 +22,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetAllStatus()
+        public async Task<IActionResult> GetAllStatus() 
         {
+            var a = 0;
             var data = await _StatusService.GetAllAsync();
             var result = _mapper.Map<IEnumerable<Status>, IEnumerable<StatusVM>>(data);
             var response = ResponseHelper.CreateReponse(result, true, null);
