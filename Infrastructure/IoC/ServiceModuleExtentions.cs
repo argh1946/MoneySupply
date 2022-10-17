@@ -9,6 +9,7 @@ using Infrastructure.Data.Repositories;
 using Core.Contracts.RequestStatus;
 using Core.Contracts.Request;
 using Core.Contracts.FileAttachment;
+using Core.Contracts.User;
 
 namespace Infrastructure.IoC
 {
@@ -17,6 +18,8 @@ namespace Infrastructure.IoC
         public static void RegisterInfrastructureServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
+            serviceCollection.AddScoped<IUnitOfWorkSon, UnitOfWorkSon>();
+
             serviceCollection.AddScoped<IAtmCrsRepository, AtmCrsRepository>();           
             serviceCollection.AddScoped<IMoneyTypeRepository, MoneyTypeRepository>();           
             serviceCollection.AddScoped<IStatusRepository, StatusRepository>();           
@@ -27,7 +30,9 @@ namespace Infrastructure.IoC
             serviceCollection.AddScoped<IRequestTearsuryAssistantRepository, RequestTearsuryAssistantRepository>();           
             serviceCollection.AddScoped<IRequestTreasuryAccountantRepository, RequestTreasuryAccountantRepository>();           
             serviceCollection.AddScoped<IRequestTreasuryManagerRepository, RequestTreasuryManagerRepository>();           
-            serviceCollection.AddScoped<IFileAttachmentRepository, FileAttachmentRepository>();           
+            serviceCollection.AddScoped<IFileAttachmentRepository, FileAttachmentRepository>(); 
+            
+            serviceCollection.AddScoped<IUserRepository, UserRepository>();           
         }
     }
 }

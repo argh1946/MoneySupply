@@ -5,6 +5,9 @@ namespace Core.Contracts.Status
     {
         Task<IEnumerable<Entities.Status>> GetAllAsync();
         Task<Entities.Status> GetByIdAsync(int id);
+
+        Task<Entities.Status> GetSPByIdAsync(int id);
+
         Task AddAsync(Entities.Status status);
         Task Update(Entities.Status status);
         Task DeleteAsync(int id);

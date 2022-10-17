@@ -5,6 +5,7 @@ using Core.Contracts.MoneyType;
 using Core.Contracts.Request;
 using Core.Contracts.RequestStatus;
 using Core.Contracts.Status;
+using Core.Contracts.User;
 using Core.Entities;
 using Core.UseCases;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,8 @@ namespace Core.IoC
             serviceCollection.AddScoped<IRequestTreasuryAccountantService, RequestTreasuryAccountantService>();
             serviceCollection.AddScoped<IRequestTreasuryManagerService, RequestTreasuryManagerService>();
             serviceCollection.AddScoped<IFileAttachmentService ,FileAttachmentService>();
+
+            serviceCollection.AddScoped<IUserService, UserService>();
         }
     }
 }

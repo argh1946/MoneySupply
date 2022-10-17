@@ -16,6 +16,11 @@ try
         options.UseSqlServer(builder.Configuration.GetConnectionString("ConnString"));
     });
 
+    builder.Services.AddDbContext<SonDbContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("ConnStringSon"));
+    });
+
     builder.Logging.ClearProviders();
     builder.Host.UseNLog();
 

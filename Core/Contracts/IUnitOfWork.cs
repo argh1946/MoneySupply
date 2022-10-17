@@ -4,6 +4,7 @@ using Core.Contracts.MoneyType;
 using Core.Contracts.Request;
 using Core.Contracts.RequestStatus;
 using Core.Contracts.Status;
+using Core.Contracts.User;
 using System;
 using System.Threading.Tasks;
 
@@ -23,5 +24,6 @@ namespace Core.Contracts
         IRequestTreasuryAccountantRepository RequestTreasuryAccountantRepository { get; }
         IRequestTreasuryManagerRepository RequestTreasuryManagerRepository { get; }
         IFileAttachmentRepository FileAttachmentRepository { get; }
+
     }
 }

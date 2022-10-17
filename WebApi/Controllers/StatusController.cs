@@ -32,6 +32,15 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("[action]")]
+        public async Task<IActionResult> GetSPByIdStatus(int id)
+        {
+            var data = await _StatusService.GetSPByIdAsync(id);
+            var result = _mapper.Map<Status, StatusVM>(data);
+            var response = ResponseHelper.CreateReponse(result, true, null);
+            return Ok(response);
+        }
+
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetByIdStatus(int id)
         {
             var data = await _StatusService.GetByIdAsync(id);

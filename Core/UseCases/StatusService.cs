@@ -45,5 +45,11 @@ namespace Core.UseCases
             await _uow.StatusRepository.DeleteAsync(id);
             await _uow.CommitAsync();
         }
+
+        public async Task<Status> GetSPByIdAsync(int id)
+        {
+            var data = await _uow.StatusRepository.GetSPByIdAsync(id);
+            return data;
+        }
     }
 }

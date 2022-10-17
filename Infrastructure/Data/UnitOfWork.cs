@@ -5,6 +5,7 @@ using Core.Contracts.MoneyType;
 using Core.Contracts.Request;
 using Core.Contracts.RequestStatus;
 using Core.Contracts.Status;
+using Core.Contracts.User;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Data
@@ -37,10 +38,11 @@ namespace Infrastructure.Data
                     {
                         _db.Dispose();
                         _db = null;
-                    }
+                    }                   
                 }
                 _disposed = true;
             }
+
         }
 
         public async Task CommitAsync()
@@ -48,6 +50,7 @@ namespace Infrastructure.Data
             await _db.SaveChangesAsync();
         }
 
+        
         public IAtmCrsRepository AtmCrsRepository => _serviceProvider.GetRequiredService<IAtmCrsRepository>();       
         public IMoneyTypeRepository MoneyTypeRepository => _serviceProvider.GetRequiredService<IMoneyTypeRepository>();       
         public IStatusRepository StatusRepository => _serviceProvider.GetRequiredService<IStatusRepository>();       
@@ -58,6 +61,8 @@ namespace Infrastructure.Data
         public IRequestTreasuryAccountantRepository RequestTreasuryAccountantRepository => _serviceProvider.GetRequiredService<IRequestTreasuryAccountantRepository>();       
         public IRequestTreasuryManagerRepository RequestTreasuryManagerRepository => _serviceProvider.GetRequiredService<IRequestTreasuryManagerRepository>();       
         public IRequestEFardaRepository RequestEFardaRepository => _serviceProvider.GetRequiredService<IRequestEFardaRepository>();       
-        public IFileAttachmentRepository FileAttachmentRepository => _serviceProvider.GetRequiredService<IFileAttachmentRepository>();       
+        public IFileAttachmentRepository FileAttachmentRepository => _serviceProvider.GetRequiredService<IFileAttachmentRepository>();
+
+
     }
 }
