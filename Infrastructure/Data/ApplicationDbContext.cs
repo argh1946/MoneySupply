@@ -1,6 +1,5 @@
 ﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace Infrastructure.Data
 {
@@ -8,7 +7,6 @@ namespace Infrastructure.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public ApplicationDbContext() { }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -37,14 +35,12 @@ namespace Infrastructure.Data
                new Status { Id = 20, Title = "رد اداره عملیات - تسویه" }
            );
         }
-
         public DbSet<AtmCrs> AtmCrs { get; set; }
         public DbSet<Request> Request { get; set; }
         public DbSet<RequestStatus> RequestStatus { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<MoneyType> MoneyType { get; set; }
         public DbSet<FileAttachment> FileAttachment { get; set; }
-
-
+        public DbSet<FileType> FileType { get; set; }
     }
 }

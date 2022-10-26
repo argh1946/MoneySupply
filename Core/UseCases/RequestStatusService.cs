@@ -17,29 +17,34 @@ namespace Core.UseCases
             _uow = unitOfWork;
         }
 
-        public Task AddAsync(RequestStatus requestStatus)
+        public async Task<IEnumerable<RequestStatus>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var data = await _uow.RequestStatusRepository.GetAllAsync(null, x => x.OrderByDescending(x => x.Id));
+            return data;
         }
 
-        public Task DeleteAsync(int id)
+        public async Task<RequestStatus> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var data = await _uow.RequestStatusRepository.GetByIdAsync(id);
+            return data;
         }
 
-        public Task<IEnumerable<RequestStatus>> GetAllAsync()
+        public async Task AddAsync(RequestStatus requestStatus)
         {
-            throw new NotImplementedException();
+            await _uow.RequestStatusRepository.AddAsync(requestStatus);
+            await _uow.CommitAsync();
         }
 
-        public Task<RequestStatus> GetByIdAsync(int id)
+        public async Task Update(RequestStatus requestStatus)
         {
-            throw new NotImplementedException();
+            _uow.RequestStatusRepository.Update(requestStatus);
+            await _uow.CommitAsync();
         }
 
-        public Task Update(RequestStatus requestStatus)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            await _uow.RequestStatusRepository.DeleteAsync(id);
+            await _uow.CommitAsync();
         }
     }
 }

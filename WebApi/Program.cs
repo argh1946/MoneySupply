@@ -1,11 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data;
-using Core.IoC;
-using Infrastructure.IoC;
+using React.IoC;
 using NLog;
 using NLog.Web;
 using WebApi.Middleware;
-using WebApi.IoC;
+using FluentValidation.AspNetCore;
+using System.Reflection;
+using Core.Entities;
+using FluentValidation;
+using Validation;
+using Core.Contracts;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 try
@@ -16,7 +20,7 @@ try
         options.UseSqlServer(builder.Configuration.GetConnectionString("ConnString"));
     });
 
-    builder.Services.AddDbContext<SonDbContext>(options =>
+    builder.Services.AddDbContext<DepositDbContext>(options =>
     {
         options.UseSqlServer(builder.Configuration.GetConnectionString("ConnStringSon"));
     });
@@ -25,14 +29,39 @@ try
     builder.Host.UseNLog();
 
     builder.Services.AddCors();
-    builder.Services.AddControllers();
+    builder.Services.AddControllers().AddFluentValidation().ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = CustomProblemDetails.MakeValidationResponse;
+    });
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    builder.Services.RegisterCoreServices();
-    builder.Services.RegisterInfrastructureServices();
-    builder.Services.RegisterApiServices();
+    //------------------------------- IOC ------------------------------------
+    builder.Services.Scan(current => current
+               //Register Core Service
+               .FromAssemblies(typeof(Core.UseCases.AtmCrsService).GetTypeInfo().Assembly)
+               .AddClasses(theClass => theClass.InExactNamespaceOf<Core.UseCases.AtmCrsService>())
+               .AsSelf()
+               .AsImplementedInterfaces()
+               .WithScopedLifetime()
+               //Register Infrastructure Service
+               .FromAssemblies(typeof(Infrastructure.Data.Repositories.AtmCrsRepository).GetTypeInfo().Assembly)
+               .AddClasses(theClass => theClass.InExactNamespaceOf<Infrastructure.Data.Repositories.AtmCrsRepository>())
+               .AsSelf()
+               .AsImplementedInterfaces()
+               .WithScopedLifetime()
+               //Register Api Services
+               .FromAssemblies(typeof(Validation.StatusValidator).GetTypeInfo().Assembly)
+               .AddClasses(theClass => theClass.InExactNamespaceOf<Validation.StatusValidator>())
+               .AsSelf()
+               .AsImplementedInterfaces()
+               .WithScopedLifetime()
+               );
 
+    builder.Services.RegisterAutoMapperService();
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+    builder.Services.AddScoped<IUnitOfWorkDeposit, UnitOfWorkDeposit>();
+    //--------------------------------------------------------------------------
     var app = builder.Build();
 
     app.UseCors(p =>

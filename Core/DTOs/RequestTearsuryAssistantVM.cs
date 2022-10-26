@@ -1,44 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Core.DTOs
 {
-
     public class RequestTearsuryAssistantInput
     {
         public int Id { get; set; }
         public int AtmCrsId { get; set; }
-
         [Display(Name = "نوع درخواست")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(5, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
         public string RequestType { get; set; }
-
         [Display(Name = "تاریخ درخواست")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public DateTime RequestDate { get; set; }
-
         [Display(Name = "شماره نامه")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public int LetterNo { get; set; }
-
         [Display(Name = "مانده دستگاه")]
         public int Remaining { get; set; }
-
         [Display(Name = "فزونی دستگاه")]
         public int Excess { get; set; }
-
-
         #region اسکناس تسویه
-
         [Display(Name = "نوع اسکناس")]
         public int? CMoneyType1 { get; set; }
-
         [Display(Name = "تعداد برگ اسکناس")]
         public int? CMoneyCount1 { get; set; }
 
@@ -95,7 +79,6 @@ namespace Core.DTOs
         public string? CTotalAmountToString { get; set; }
 
         #endregion
-
         #region اسکناس ریجکت
 
         [Display(Name = "نوع اسکناس")]
@@ -157,7 +140,6 @@ namespace Core.DTOs
         public string? RjTotalAmountToString { get; set; }
 
         #endregion
-
         #region اسکناس ریترکت
 
         [Display(Name = "نوع اسکناس")]
@@ -219,10 +201,5 @@ namespace Core.DTOs
         public string? RtTotalAmountToString { get; set; }
 
         #endregion
-
-
-
-
     }
-
 }

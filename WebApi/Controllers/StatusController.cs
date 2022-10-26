@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using Core.Contracts;
 using Core.Contracts.Status;
 using Core.DTOs;
 using Core.Entities;
-using Core.Filter;
 using Core.Helper;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -22,55 +23,40 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetAllStatus() 
-        {
-            var a = 0;
+        public async Task<Result<IEnumerable<StatusVM>>> GetAllStatus()
+        {           
             var data = await _StatusService.GetAllAsync();
             var result = _mapper.Map<IEnumerable<Status>, IEnumerable<StatusVM>>(data);
-            var response = ResponseHelper.CreateReponse(result, true, null);
-            return Ok(response);
+            return Result.Ok(result);
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetSPByIdStatus(int id)
-        {
-            var data = await _StatusService.GetSPByIdAsync(id);
-            var result = _mapper.Map<Status, StatusVM>(data);
-            var response = ResponseHelper.CreateReponse(result, true, null);
-            return Ok(response);
-        }
-
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetByIdStatus(int id)
+        public async Task<Result<StatusVM>> GetByIdStatus(int id)
         {
             var data = await _StatusService.GetByIdAsync(id);
             var result = _mapper.Map<Status, StatusVM>(data);
-            var response = ResponseHelper.CreateReponse(result, true, null);
-            return Ok(response);
+            return Result.Ok(result);
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> AddStatusAsync(Status Status)
+        public async Task<Result> AddStatusAsync(Status Status)
         {
             await _StatusService.AddAsync(Status);
-            var response = ResponseHelper.CreateReponse((StatusVM)null, true, null);
-            return Ok(response);
+            return Result.Ok();
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateStatus(Status Status)
+        public async Task<Result> UpdateStatus(Status Status)
         {
             await _StatusService.Update(Status);
-            var response = ResponseHelper.CreateReponse((StatusVM)null, true, null);
-            return Ok(response);
+            return Result.Ok();
         }
 
         [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteStatusAsync(int id)
+        public async Task<Result> DeleteStatusAsync(int id)
         {
             await _StatusService.DeleteAsync(id);
-            var response = ResponseHelper.CreateReponse((StatusVM)null, true, null);
-            return Ok(response);
+            return Result.Ok();
         }
     }
 }

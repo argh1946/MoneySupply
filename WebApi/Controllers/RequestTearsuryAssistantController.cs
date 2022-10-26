@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using Core.Contracts;
 using Core.Contracts.Request;
-using Core.Contracts.Status;
 using Core.DTOs;
 using Core.Entities;
-using Core.Filter;
 using Core.Helper;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -15,57 +15,23 @@ namespace WebApi.Controllers
     {
         protected readonly IRequestTearsuryAssistantService _requestTearsuryAssistantService;
         private readonly IMapper _mapper;
-        private ILogger<RequestTearsuryAssistantController> _logger;
-
-
-        public RequestTearsuryAssistantController(IRequestTearsuryAssistantService RequestTearsuryAssistantService, IMapper mapper, ILogger<RequestTearsuryAssistantController> logger)
+        
+        public RequestTearsuryAssistantController(IRequestTearsuryAssistantService RequestTearsuryAssistantService, IMapper mapper)
         {
             _requestTearsuryAssistantService = RequestTearsuryAssistantService;
             _mapper = mapper;
-            _logger = logger;
-        }
-
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetRequestTearsuryAssistant()
-        {
-            try
-            {
-                var data = await _requestTearsuryAssistantService.GetTearsuryAssistantAsync();
-                var result = _mapper.Map<IEnumerable<Request>, IEnumerable<RequestMoneySupplyVM>>(data);
-                var reponse = ResponseHelper.CreateReponse(result, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((IEnumerable<RequestMoneySupplyVM>)null, false, err);
-                return BadRequest(reponse);
-            }
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> UpdateRequestAsync(RequestTearsuryAssistantInput req, string des)
+        public async Task<Result> AddRequestAsync(RequestTearsuryAssistantInput req)
         {
-            try
-            {
-                var request = _mapper.Map<RequestTearsuryAssistantInput, Request>(req);
-                await _requestTearsuryAssistantService.UpdateTearsuryAssistantAsync(request, des);
-                var reponse = ResponseHelper.CreateReponse((RequestEfardaVM)null, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((RequestEfardaVM)null, false, err);
-                return BadRequest(reponse);
-            }
-
+            var request = _mapper.Map<RequestTearsuryAssistantInput, Request>(req);
+            request.LetterNo = int.Parse(ConvertToDateTime.ToPersianDate(DateTime.Now, ""));
+            request.CreatedDate = DateTime.Now;
+            request.Creator = 0;
+            request.StatusId = 1;
+            await _requestTearsuryAssistantService.AddAsync(request);
+            return Result.Ok();
         }
-
-        
-
-
     }
 }

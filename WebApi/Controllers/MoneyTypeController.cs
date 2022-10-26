@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using Core.Contracts;
 using Core.Contracts.MoneyType;
 using Core.DTOs;
 using Core.Entities;
-using Core.Filter;
 using Core.Helper;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -12,114 +13,50 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class MoneyTypeController : ControllerBase
     {
-
         protected readonly IMoneyTypeService _MoneyTypeService;
         private readonly IMapper _mapper;
-        private ILogger<MoneyTypeController> _logger;
 
-
-        public MoneyTypeController(IMoneyTypeService MoneyTypeService, IMapper mapper, ILogger<MoneyTypeController> logger)
+        public MoneyTypeController(IMoneyTypeService MoneyTypeService, IMapper mapper)
         {
             _MoneyTypeService = MoneyTypeService;
             _mapper = mapper;
-            _logger = logger;
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetAllMoneyType()
+        public async Task<Result<IEnumerable<MoneyTypeVM>>> GetAllMoneyType()
         {
-            try
-            {
-                var data = await _MoneyTypeService.GetAllAsync();
-                var result = _mapper.Map<IEnumerable<MoneyType>, IEnumerable<MoneyTypeVM>>(data);
-                string[] err = { "" };
-                var reponse = ResponseHelper.CreateReponse(result, true, err);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((IEnumerable<MoneyTypeVM>)null, false, err );
-                return BadRequest(reponse);
-            }       
+            var data = await _MoneyTypeService.GetAllAsync();
+            var result = _mapper.Map<IEnumerable<MoneyType>, IEnumerable<MoneyTypeVM>>(data);
+            return Result.Ok(result);
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetByIdMoneyType(int id)
+        public async Task<Result<MoneyTypeVM>> GetByIdMoneyType(int id)
         {
-            try
-            {
-                var data = await _MoneyTypeService.GetByIdAsync(id);
-                var result = _mapper.Map<MoneyType, MoneyTypeVM>(data);
-                string[] err = { "" };
-                var reponse = ResponseHelper.CreateReponse(result, true, err);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((IEnumerable<MoneyTypeVM>)null, false, err);
-                return BadRequest(reponse);
-            }
+            var data = await _MoneyTypeService.GetByIdAsync(id);
+            var result = _mapper.Map<MoneyType, MoneyTypeVM>(data);
+            return Result.Ok(result);
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> AddMoneyTypeAsync(MoneyType moneyType)
+        public async Task<Result> AddMoneyTypeAsync(MoneyType moneyType)
         {
-            try
-            {
-                await _MoneyTypeService.AddAsync(moneyType);
-                var response = ResponseHelper.CreateReponse((MoneyTypeVM)null, true, null);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((IEnumerable<MoneyTypeVM>)null, false, err);
-                return BadRequest(reponse);
-            }
-            
+            await _MoneyTypeService.AddAsync(moneyType);
+            return Result.Ok();
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateMoneyType(MoneyType moneyType)
+        public async Task<Result> UpdateMoneyType(MoneyType moneyType)
         {
-            try
-            {
-                await _MoneyTypeService.Update(moneyType);
-                var response = ResponseHelper.CreateReponse((MoneyTypeVM)null, true, null);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((IEnumerable<MoneyTypeVM>)null, false, err);
-                return BadRequest(reponse);
-            }
-
+            await _MoneyTypeService.Update(moneyType);
+            return Result.Ok();
         }
 
         [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteMoneyTypeAsync(int id)
+        public async Task<Result> DeleteMoneyTypeAsync(int id)
         {
-            try
-            {
-                await _MoneyTypeService.DeleteAsync(id);
-                var response = ResponseHelper.CreateReponse((MoneyTypeVM)null, true, null);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((IEnumerable<MoneyTypeVM>)null, false, err);
-                return BadRequest(reponse);
-            }
-
+            await _MoneyTypeService.DeleteAsync(id);
+            return Result.Ok();
         }
     }
 }

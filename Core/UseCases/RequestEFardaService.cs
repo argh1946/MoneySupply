@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Contracts;
+using Core.Contracts.Request;
 
-namespace Core.Contracts.Request
+namespace Core.UseCases
 {
     public class RequestEFardaService : IRequestEFardaService
     {
@@ -14,12 +11,10 @@ namespace Core.Contracts.Request
             _uow = unitOfWork;
         }
 
-
         #region پول گذاری
-
         public async Task<IEnumerable<Entities.Request>> GetRequestEFardaAsync()
         {
-            var data = await _uow.RequestEFardaRepository.GetAllAsync(d => d.StatusId == 2);
+            var data = await _uow.RequestEFardaRepository.GetAllAsync(d => d.StatusId == 1);
             return data;
         }
 
@@ -42,7 +37,6 @@ namespace Core.Contracts.Request
             _uow.RequestEFardaRepository.Update(item);
             await _uow.CommitAsync();
         }
-
         #endregion
     }
 }

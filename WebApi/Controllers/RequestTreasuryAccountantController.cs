@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using Core.Contracts;
 using Core.Contracts.Request;
-using Core.Contracts.Status;
 using Core.DTOs;
 using Core.Entities;
-using Core.Filter;
 using Core.Helper;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -13,77 +13,61 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class RequestTreasuryAccountantController : ControllerBase
     {
-
         protected readonly IRequestTreasuryAccountantService _requestTreasuryAccountantService;
         private readonly IMapper _mapper;
-        private ILogger<RequestTreasuryAccountantController> _logger;
 
-
-        public RequestTreasuryAccountantController(IRequestTreasuryAccountantService RequestTreasuryAccountantService, IMapper mapper, ILogger<RequestTreasuryAccountantController> logger)
+        public RequestTreasuryAccountantController(IRequestTreasuryAccountantService RequestTreasuryAccountantService, IMapper mapper)
         {
             _requestTreasuryAccountantService = RequestTreasuryAccountantService;
             _mapper = mapper;
-            _logger = logger;
         }
 
+        #region پول گذاری
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetRequestTreasuryAccountant()
+        public async Task<Result<IEnumerable<RequestTreasuryAccountantVM>>> GetRequestTreasuryAccountant()
         {
-            try
-            {
-                var data = await _requestTreasuryAccountantService.GetRequestTreasuryAccountantAsync();
-                var result = _mapper.Map<IEnumerable<Request>, IEnumerable<RequestTreasuryAccountantVM>>(data);
-                var reponse = ResponseHelper.CreateReponse(result, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((IEnumerable<RequestTreasuryAccountantVM>)null, false, err);
-                return BadRequest(reponse);
-            }
+            var data = await _requestTreasuryAccountantService.GetRequestTreasuryAccountantAsync();
+            var result = _mapper.Map<IEnumerable<Request>, IEnumerable<RequestTreasuryAccountantVM>>(data);
+            return Result.Ok(result);
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> ConfrimRequestAsync(int requestId, string des)
+        public async Task<Result> ConfrimRequestAsync(int requestId, string des)
         {
-            try
-            {
-                await _requestTreasuryAccountantService.ConfirmTreasuryAccountantAsync(requestId, des);
-                var reponse = ResponseHelper.CreateReponse((RequestTreasuryAccountantVM)null, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((RequestTreasuryAccountantVM)null, false, err);
-                return BadRequest(reponse);
-            }
-
+            await _requestTreasuryAccountantService.ConfirmTreasuryAccountantAsync(requestId, des);
+            return Result.Ok();
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> RejectRequestAsync(int requestId, string des)
+        public async Task<Result> RejectRequestAsync(int requestId, string des)
         {
-            try
-            {
-                await _requestTreasuryAccountantService.RejectTreasuryAccountantAsync(requestId, des);
-                var reponse = ResponseHelper.CreateReponse((RequestTreasuryAccountantVM)null, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((RequestTreasuryAccountantVM)null, false, err);
-                return BadRequest(reponse);
-            }
+            await _requestTreasuryAccountantService.RejectTreasuryAccountantAsync(requestId, des);
+            return Result.Ok();
+        }
+        #endregion
 
+        #region تسویه
+        [HttpGet("[action]")]
+        public async Task<Result<IEnumerable<RequestTreasuryAccountantVM>>> GetSettlementTreasuryAccountant()
+        {
+            var data = await _requestTreasuryAccountantService.GetRequestTreasuryAccountantAsync();
+            var result = _mapper.Map<IEnumerable<Request>, IEnumerable<RequestTreasuryAccountantVM>>(data);
+            return Result.Ok(result);
         }
 
+        [HttpPost("[action]")]
+        public async Task<Result> ConfrimSettlementRequestAsync(int requestId, string des)
+        {
+            await _requestTreasuryAccountantService.ConfirmSettlementTreasuryAccountantAsync(requestId, des);
+            return Result.Ok();
+        }
 
-
+        [HttpPost("[action]")]
+        public async Task<Result> RejectSettlementRequestAsync(int requestId, string des)
+        {
+            await _requestTreasuryAccountantService.RejectSettlementTreasuryAccountantAsync(requestId, des);
+            return Result.Ok();
+        }
+        #endregion
     }
 }

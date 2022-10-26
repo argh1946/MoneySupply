@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using Core.Contracts;
 using Core.Contracts.Request;
-using Core.Contracts.Status;
 using Core.DTOs;
 using Core.Entities;
-using Core.Filter;
 using Core.Helper;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -13,77 +13,61 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class RequestOperationDepartmentController : ControllerBase
     {
-
         protected readonly IRequestOperationDepartmentService _requestOperationDepartmentService;
         private readonly IMapper _mapper;
-        private ILogger<RequestOperationDepartmentController> _logger;
 
-
-        public RequestOperationDepartmentController(IRequestOperationDepartmentService RequestOperationDepartmentService, IMapper mapper, ILogger<RequestOperationDepartmentController> logger)
+        public RequestOperationDepartmentController(IRequestOperationDepartmentService RequestOperationDepartmentService, IMapper mapper)
         {
             _requestOperationDepartmentService = RequestOperationDepartmentService;
             _mapper = mapper;
-            _logger = logger;
         }
 
+        #region پول گذاری
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetRequestOperationDepartment()
+        public async Task<Result<IEnumerable<RequestOperationDepartmentVM>>> GetRequestOperationDepartment()
         {
-            try
-            {
-                var data = await _requestOperationDepartmentService.GetRequestOperationDepartmentAsync();
-                var result = _mapper.Map<IEnumerable<Request>, IEnumerable<RequestOperationDepartmentVM>>(data);
-                var reponse = ResponseHelper.CreateReponse(result, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((IEnumerable<RequestOperationDepartmentVM>)null, false, err);
-                return BadRequest(reponse);
-            }
+            var data = await _requestOperationDepartmentService.GetRequestOperationDepartmentAsync();
+            var result = _mapper.Map<IEnumerable<Request>, IEnumerable<RequestOperationDepartmentVM>>(data);
+            return Result.Ok(result);
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> ConfrimRequestAsync(int requestId, string des)
+        public async Task<Result> ConfrimRequestAsync(int requestId, string des)
         {
-            try
-            {
-                await _requestOperationDepartmentService.ConfirmOperationDepartmentAsync(requestId, des);
-                var reponse = ResponseHelper.CreateReponse((RequestOperationDepartmentVM)null, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((RequestOperationDepartmentVM)null, false, err);
-                return BadRequest(reponse);
-            }
-
+            await _requestOperationDepartmentService.ConfirmOperationDepartmentAsync(requestId, des);
+            return Result.Ok();
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> RejectRequestAsync(int requestId, string des)
+        public async Task<Result> RejectRequestAsync(int requestId, string des)
         {
-            try
-            {
-                await _requestOperationDepartmentService.RejectOperationDepartmentAsync(requestId, des);
-                var reponse = ResponseHelper.CreateReponse((RequestOperationDepartmentVM)null, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((RequestOperationDepartmentVM)null, false, err);
-                return BadRequest(reponse);
-            }
+            await _requestOperationDepartmentService.RejectOperationDepartmentAsync(requestId, des);
+            return Result.Ok();
+        }
+        #endregion
 
+        #region تسویه
+        [HttpGet("[action]")]
+        public async Task<Result<IEnumerable<RequestOperationDepartmentVM>>> GetRequestSettlementOperationDepartment()
+        {
+            var data = await _requestOperationDepartmentService.GetSettlementOperationDepartmentAsync();
+            var result = _mapper.Map<IEnumerable<Request>, IEnumerable<RequestOperationDepartmentVM>>(data);
+            return Result.Ok(result);
         }
 
+        [HttpPost("[action]")]
+        public async Task<Result> ConfirmSettlementRequestAsync(int requestId, string des)
+        {
+            await _requestOperationDepartmentService.ConfirmSettlementOperationDepartmentAsync(requestId, des);
+            return Result.Ok();
+        }
 
-
+        [HttpPost("[action]")]
+        public async Task<Result> RejectSettlementRequestAsync(int requestId, string des)
+        {
+            await _requestOperationDepartmentService.RejectSettlementOperationDepartmentAsync(requestId, des);
+            return Result.Ok();
+        }
+        #endregion
     }
 }

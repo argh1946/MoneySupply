@@ -3,10 +3,9 @@ using Core.Contracts;
 using Core.Contracts.AtmCrs;
 using Core.DTOs;
 using Core.Entities;
-using Core.Filter;
 using Core.Helper;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 
 namespace WebApi.Controllers
 {
@@ -14,112 +13,50 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class AtmCrsController : ControllerBase
     {
-
         protected readonly IAtmCrsService _atmCrsService;
         private readonly IMapper _mapper;
-        private ILogger<AtmCrsController> _logger;
 
-
-        public AtmCrsController(IAtmCrsService atmCrsService, IMapper mapper, ILogger<AtmCrsController> logger)
+        public AtmCrsController(IAtmCrsService atmCrsService, IMapper mapper)
         {
             _atmCrsService = atmCrsService;
             _mapper = mapper;
-            _logger = logger;
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetAllAtmCrs()
+        public async Task<Result<IEnumerable<AtmCrsVM>>> GetAllAtmCrs()
         {
-            try
-            {
-                var data = await _atmCrsService.GetAllAsync();
-                var result = _mapper.Map<IEnumerable<AtmCrs>, IEnumerable<AtmCrsVM>>(data);
-                var reponse = ResponseHelper.CreateReponse(result, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
-                return BadRequest(reponse);
-            }
+            var data = await _atmCrsService.GetAllAsync();
+            var result = _mapper.Map<IEnumerable<AtmCrs>, IEnumerable<AtmCrsVM>>(data);
+            return Result.Ok(result);
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetByIdAtmCrs(int id)
+        public async Task<Result<AtmCrsVM>> GetByIdAtmCrs(int id)
         {
-            try
-            {
-                var data = await _atmCrsService.GetByIdAsync(id);
-                var result = _mapper.Map<AtmCrs, AtmCrsVM>(data);
-                var reponse = ResponseHelper.CreateReponse(result, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
-                return BadRequest(reponse);
-            }
+            var data = await _atmCrsService.GetByIdAsync(id);
+            var result = _mapper.Map<AtmCrs, AtmCrsVM>(data);
+            return Result.Ok(result);
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> AddAtmCrsAsync(AtmCrs AtmCrs)
+        public async Task<Result> AddAtmCrsAsync(AtmCrs atmCrs)
         {
-            try
-            {
-                await _atmCrsService.AddAsync(AtmCrs);
-                var response = ResponseHelper.CreateReponse((AtmCrsVM)null, true, null);
-                return Ok(response);
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
-                return BadRequest(reponse);
-            }
+            await _atmCrsService.AddAsync(atmCrs);
+            return Result.Ok();
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateAtmCrs(AtmCrs AtmCrs)
+        public async Task<Result> UpdateAtmCrs(AtmCrs atmCrs)
         {
-            try
-            {
-                await _atmCrsService.Update(AtmCrs);
-                var response = ResponseHelper.CreateReponse((AtmCrsVM)null, true, null);
-                return Ok(response);
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
-                return BadRequest(reponse);
-            }
+            await _atmCrsService.Update(atmCrs);
+            return Result.Ok();
         }
 
         [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteAtmCrsAsync(int id)
+        public async Task<Result> DeleteAtmCrsAsync(int id)
         {
-            try
-            {
-                await _atmCrsService.DeleteAsync(id);
-                var response = ResponseHelper.CreateReponse((AtmCrsVM)null, true, null);
-                return Ok(response);
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((AtmCrsVM)null, false, err);
-                return BadRequest(reponse);
-            }
+            await _atmCrsService.DeleteAsync(id);
+            return Result.Ok();
         }
     }
 }

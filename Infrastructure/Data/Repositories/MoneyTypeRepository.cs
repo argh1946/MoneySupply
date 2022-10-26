@@ -1,8 +1,7 @@
 ﻿using Core.Entities;
-using Microsoft.Extensions.Configuration;
 using Core.Contracts.MoneyType;
 
-namespace Infrastructure.Data
+namespace Infrastructure.Data.Repositories
 {
     public class MoneyTypeRepository : RepositoryBase<MoneyType>, IMoneyTypeRepository
     {

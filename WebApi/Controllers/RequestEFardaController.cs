@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using Core.Contracts;
 using Core.Contracts.Request;
-using Core.Contracts.Status;
 using Core.DTOs;
 using Core.Entities;
-using Core.Filter;
 using Core.Helper;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -13,76 +13,35 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class RequestEFardaController : ControllerBase
     {
-
         protected readonly IRequestEFardaService _requestEFardaService;
         private readonly IMapper _mapper;
-        private ILogger<RequestEFardaController> _logger;
 
-
-        public RequestEFardaController(IRequestEFardaService requestEFardaService, IMapper mapper, ILogger<RequestEFardaController> logger)
+        public RequestEFardaController(IRequestEFardaService requestEFardaService, IMapper mapper)
         {
             _requestEFardaService = requestEFardaService;
             _mapper = mapper;
-            _logger = logger;
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetRequestEFarda()
+        public async Task<Result<IEnumerable<RequestEfardaVM>>> GetRequestEFarda()
         {
-            try
-            {
-                var data = await _requestEFardaService.GetRequestEFardaAsync();
-                var result = _mapper.Map<IEnumerable<Request>, IEnumerable<RequestEfardaVM>>(data);
-                var reponse = ResponseHelper.CreateReponse(result, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((IEnumerable<RequestEfardaVM>)null, false, err);
-                return BadRequest(reponse);
-            }
+            var data = await _requestEFardaService.GetRequestEFardaAsync();
+            var result = _mapper.Map<IEnumerable<Request>, IEnumerable<RequestEfardaVM>>(data);
+            return Result.Ok(result);
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> ConfrimRequestAsync(int requestId,string des)
+        public async Task<Result> ConfrimRequestAsync(int requestId, string des)
         {
-            try
-            {
-                await _requestEFardaService.ConfirmEFardaAsync(requestId,des);
-                var reponse = ResponseHelper.CreateReponse((RequestEfardaVM)null, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((RequestEfardaVM)null, false, err);
-                return BadRequest(reponse);
-            }
-
+            await _requestEFardaService.ConfirmEFardaAsync(requestId, des);
+            return Result.Ok();
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> RejectRequestAsync(int requestId, string des)
+        public async Task<Result> RejectRequestAsync(int requestId, string des)
         {
-            try
-            {
-                await _requestEFardaService.RejectEFardaAsync(requestId, des);
-                var reponse = ResponseHelper.CreateReponse((RequestEfardaVM)null, true, null);
-                return Ok(reponse);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "خطا");
-                string[] err = { ex.Message + " / " + ex.InnerException?.Message };
-                var reponse = ResponseHelper.CreateReponse((RequestEfardaVM)null, false, err);
-                return BadRequest(reponse);
-            }
-
+            await _requestEFardaService.RejectEFardaAsync(requestId, des);
+            return Result.Ok();
         }
-
-
     }
 }

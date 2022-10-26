@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Core.DTOs
 {
-
     public class RequestMoneySupplyVM
     {
         public int AtmCrsId { get; set; }
@@ -22,20 +15,16 @@ namespace Core.DTOs
     public class RequestMoneySupplyInput
     {
         public int AtmCrsId { get; set; }
-
         [Display(Name = "نوع درخواست")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(5, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
         public string RequestType { get; set; }
-
         [Display(Name = "تاریخ درخواست")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string RequestDate { get; set; }        
-
         [Display(Name = "سری کاست")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public int CassetteSeries { get; set; }        
-
         #region اسکناس تحویل
 
         [Display(Name = "نوع اسکناس")]
@@ -98,8 +87,5 @@ namespace Core.DTOs
         public string? DTotalAmountToString { get; set; }
 
         #endregion
-
     }
-
-
 }

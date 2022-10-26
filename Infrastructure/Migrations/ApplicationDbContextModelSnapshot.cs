@@ -80,7 +80,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int>("FileType")
+                    b.Property<int>("FileTypeId")
                         .HasColumnType("int");
 
                     b.Property<int>("RequestId")
@@ -93,9 +93,29 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FileTypeId");
+
                     b.HasIndex("RequestId");
 
                     b.ToTable("FileAttachment");
+                });
+
+            modelBuilder.Entity("Core.Entities.FileType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileType");
                 });
 
             modelBuilder.Entity("Core.Entities.MoneyType", b =>
@@ -420,6 +440,9 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar(400)");
 
+                    b.Property<int>("Editor")
+                        .HasColumnType("int");
+
                     b.Property<int>("RequestId")
                         .HasColumnType("int");
 
@@ -557,6 +580,12 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.FileAttachment", b =>
                 {
+                    b.HasOne("Core.Entities.FileType", null)
+                        .WithMany("FileAttachment")
+                        .HasForeignKey("FileTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Entities.Request", null)
                         .WithMany("FileAttachment")
                         .HasForeignKey("RequestId")
@@ -591,6 +620,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Core.Entities.AtmCrs", b =>
                 {
                     b.Navigation("Request");
+                });
+
+            modelBuilder.Entity("Core.Entities.FileType", b =>
+                {
+                    b.Navigation("FileAttachment");
                 });
 
             modelBuilder.Entity("Core.Entities.Request", b =>

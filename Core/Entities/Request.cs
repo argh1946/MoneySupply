@@ -11,12 +11,9 @@ namespace Core.Entities
 {
     public class Request : BaseTable
     {
-        public Request()
-        {
-            RequestStatus = new List<RequestStatus>();
-        }
+        public virtual int AtmCrsId { get; set; }
+        public virtual AtmCrs AtmCrs { get; set; }
 
-        public int AtmCrsId { get; set; }
         public int StatusId { get; set; }
 
 
@@ -291,8 +288,6 @@ namespace Core.Entities
         public string? RtTotalAmountToString { get; set; }
 
         #endregion
-
-        public ICollection<RequestStatus> RequestStatus { get; set; }
-        public ICollection<FileAttachment> FileAttachment { get; set; }
+        
     }
 }

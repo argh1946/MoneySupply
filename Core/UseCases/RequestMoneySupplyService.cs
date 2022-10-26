@@ -1,11 +1,7 @@
-﻿using Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Contracts;
+using Core.Contracts.Request;
 
-namespace Core.Contracts.Request
+namespace Core.UseCases
 {
     public class RequestMoneySupplyService : IRequestMoneySupplyService
     {
@@ -15,44 +11,55 @@ namespace Core.Contracts.Request
             _uow = unitOfWork;
         }
 
-        #region پول گذاری
-        public async Task<IEnumerable<Entities.Request>> GetRequestMoneySupplyAsync()
-        {
-            var data = await _uow.RequestMoneySupplyRepository.GetAllAsync(d => d.StatusId == 1);
-            return data;
-        }
-
         public async Task AddAsync(Entities.Request request)
         {
             await _uow.RequestMoneySupplyRepository.AddAsync(request);
             await _uow.CommitAsync();
         }
 
-        #endregion
-
-        #region تسویه
-        public async Task<IEnumerable<Entities.Request>> GetSettlementMoneySupplyAsync()
+        public async Task Update(Entities.Request request)
         {
-            var data = await _uow.RequestMoneySupplyRepository.GetAllAsync(d => d.StatusId == 7);
-            return data;
+            _uow.RequestMoneySupplyRepository.Update(request);
+            await _uow.CommitAsync();
         }
 
-        #endregion
-
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            await _uow.RequestMoneySupplyRepository.DeleteAsync(id);
+            await _uow.CommitAsync();
         }
+
         public Task<Entities.Request> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
-        public Task Update(Entities.Request status)
+
+        #region تسویه
+        public async Task<IEnumerable<Entities.Request>> GetSettlementMoneySupplyAsync()
         {
-            throw new NotImplementedException();
+            var data = await _uow.RequestMoneySupplyRepository.GetAllAsync(d => d.StatusId == 6);
+            return data;
         }
 
+        public async Task ConfirmSettlementMoneySupplyAsync(int requestId, string des)
+        {
+            var item = await _uow.RequestMoneySupplyRepository.GetByIdAsync(requestId);
+            item.StatusId = 7;
+            item.ModifiedDate = DateTime.Now;
+            await _uow.RequestStatusRepository.AddAsync(new Entities.RequestStatus() { RequestId = requestId, StatusId = 7, Description = des, DateTime = DateTime.Now });
+            _uow.RequestMoneySupplyRepository.Update(item);
+            await _uow.CommitAsync();
+        }
 
-
+        public async Task RejectSettlementMoneySupplyAsync(int requestId, string des)
+        {
+            var item = await _uow.RequestMoneySupplyRepository.GetByIdAsync(requestId);
+            item.StatusId = 17;
+            item.ModifiedDate = DateTime.Now;
+            await _uow.RequestStatusRepository.AddAsync(new Entities.RequestStatus() { RequestId = requestId, StatusId = 17, Description = des, DateTime = DateTime.Now });
+            _uow.RequestMoneySupplyRepository.Update(item);
+            await _uow.CommitAsync();
+        }
+        #endregion
     }
 }

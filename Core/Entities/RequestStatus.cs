@@ -11,8 +11,10 @@ namespace Core.Entities
 {
     public class RequestStatus : BaseEntity
     {
-        public int StatusId { get; set; }
-        public int RequestId { get; set; }
+        public virtual int StatusId { get; set; }
+        public virtual Status Status { get; set; }
+        public virtual int RequestId { get; set; }
+        public virtual Request Request { get; set; }
 
         [Display(Name = "توضیحات")]
         [MaxLength(400, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
@@ -20,5 +22,7 @@ namespace Core.Entities
 
         [Display(Name = "تاریخ و ساعت")]
         public DateTime DateTime { get; set; }
+        [Display(Name = "ویرایشگر")]
+        public int Editor { get; set; }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using Core.Entities;
-using Microsoft.Extensions.Configuration;
-using Core.Entities;
 using Core.Contracts.AtmCrs;
 
-namespace Infrastructure.Data
+namespace Infrastructure.Data.Repositories
 {
     public class AtmCrsRepository : RepositoryBase<AtmCrs>, IAtmCrsRepository
     {

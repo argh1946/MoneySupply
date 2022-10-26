@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Contracts;
+using Core.Contracts.Request;
 
-namespace Core.Contracts.Request
+namespace Core.UseCases
 {
     public class RequestTreasuryManagerService : IRequestTreasuryManagerService
     {
@@ -12,6 +9,13 @@ namespace Core.Contracts.Request
         public RequestTreasuryManagerService(IUnitOfWork unitOfWork)
         {
             _uow = unitOfWork;
+        }
+
+        #region پول گذاری
+        public async Task<IEnumerable<Entities.Request>> GetRequestTreasuryManagerAsync()
+        {
+            var data = await _uow.RequestTreasuryManagerRepository.GetAllAsync(d => d.StatusId == 2);
+            return data;
         }
 
         public async Task ConfirmTreasuryManagerAsync(int requestId, string des)
@@ -24,12 +28,6 @@ namespace Core.Contracts.Request
             await _uow.CommitAsync();
         }
 
-        public async Task<IEnumerable<Entities.Request>> GetRequestTreasuryManagerAsync()
-        {
-            var data = await _uow.RequestTreasuryManagerRepository.GetAllAsync(d => d.StatusId == 3);
-            return data;
-        }
-
         public async Task RejectTreasuryManagerAsync(int requestId, string des)
         {
             var item = await _uow.RequestTreasuryManagerRepository.GetByIdAsync(requestId);
@@ -39,5 +37,34 @@ namespace Core.Contracts.Request
             _uow.RequestTreasuryManagerRepository.Update(item);
             await _uow.CommitAsync();
         }
+        #endregion
+
+        #region تسویه
+        public async Task<IEnumerable<Entities.Request>> GetSettlementTreasuryManagerAsync()
+        {
+            var data = await _uow.RequestTreasuryManagerRepository.GetAllAsync(d => d.StatusId == 7);
+            return data;
+        }
+
+        public async Task ConfirmSettlementTreasuryManagerAsyng(int requestId, string des)
+        {
+            var item = await _uow.RequestTreasuryManagerRepository.GetByIdAsync(requestId);
+            item.StatusId = 8;
+            item.ModifiedDate = DateTime.Now;
+            await _uow.RequestStatusRepository.AddAsync(new Entities.RequestStatus() { RequestId = requestId, StatusId = 8, Description = des, DateTime = DateTime.Now });
+            _uow.RequestTreasuryManagerRepository.Update(item);
+            await _uow.CommitAsync();
+        }
+
+        public async Task RejectSettlementTreasuryManagerAsync(int requestId, string des)
+        {
+            var item = await _uow.RequestTreasuryManagerRepository.GetByIdAsync(requestId);
+            item.StatusId = 18;
+            item.ModifiedDate = DateTime.Now;
+            await _uow.RequestStatusRepository.AddAsync(new Entities.RequestStatus() { RequestId = requestId, StatusId = 18, Description = des, DateTime = DateTime.Now });
+            _uow.RequestTreasuryManagerRepository.Update(item);
+            await _uow.CommitAsync();
+        }
+        #endregion
     }
 }

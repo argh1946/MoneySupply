@@ -1,6 +1,4 @@
-﻿
-
-namespace Core.Contracts.MoneyType
+﻿namespace Core.Contracts.MoneyType
 {
     public interface IMoneyTypeService
     {
@@ -9,6 +7,5 @@ namespace Core.Contracts.MoneyType
         Task AddAsync(Entities.MoneyType moneyType);
         Task Update(Entities.MoneyType moneyType);
         Task DeleteAsync(int id);
-
     }
 }

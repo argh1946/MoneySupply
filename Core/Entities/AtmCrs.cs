@@ -10,11 +10,7 @@ using Core.Contracts;
 namespace Core.Entities
 {
     public class AtmCrs : BaseEntity
-    {
-        public AtmCrs()
-        {
-            Request = new List<Request>();
-        }
+    {      
        
         [Display(Name = "عنوان")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -54,8 +50,6 @@ namespace Core.Entities
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(5, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
         public string Type { get; set; }
-
-        public ICollection<Request> Request { get; set; }
 
        
     }    
