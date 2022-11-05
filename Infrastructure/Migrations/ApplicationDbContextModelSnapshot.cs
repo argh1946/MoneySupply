@@ -77,7 +77,6 @@ namespace Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<byte[]>("FileArrey")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<int>("FileTypeId")
@@ -580,63 +579,56 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.FileAttachment", b =>
                 {
-                    b.HasOne("Core.Entities.FileType", null)
-                        .WithMany("FileAttachment")
+                    b.HasOne("Core.Entities.FileType", "FileType")
+                        .WithMany()
                         .HasForeignKey("FileTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.Request", null)
-                        .WithMany("FileAttachment")
+                    b.HasOne("Core.Entities.Request", "Request")
+                        .WithMany("FileAttachments")
                         .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("FileType");
+
+                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("Core.Entities.Request", b =>
                 {
-                    b.HasOne("Core.Entities.AtmCrs", null)
-                        .WithMany("Request")
+                    b.HasOne("Core.Entities.AtmCrs", "AtmCrs")
+                        .WithMany()
                         .HasForeignKey("AtmCrsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AtmCrs");
                 });
 
             modelBuilder.Entity("Core.Entities.RequestStatus", b =>
                 {
-                    b.HasOne("Core.Entities.Request", null)
-                        .WithMany("RequestStatus")
+                    b.HasOne("Core.Entities.Request", "Request")
+                        .WithMany()
                         .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.Status", null)
-                        .WithMany("RequestStatus")
+                    b.HasOne("Core.Entities.Status", "Status")
+                        .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("Core.Entities.AtmCrs", b =>
-                {
                     b.Navigation("Request");
-                });
 
-            modelBuilder.Entity("Core.Entities.FileType", b =>
-                {
-                    b.Navigation("FileAttachment");
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("Core.Entities.Request", b =>
                 {
-                    b.Navigation("FileAttachment");
-
-                    b.Navigation("RequestStatus");
-                });
-
-            modelBuilder.Entity("Core.Entities.Status", b =>
-                {
-                    b.Navigation("RequestStatus");
+                    b.Navigation("FileAttachments");
                 });
 #pragma warning restore 612, 618
         }

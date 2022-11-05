@@ -26,12 +26,7 @@ namespace WebApi.Middleware
                 httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 return;
             }
-
-
-
             await _next(httpContext);
-
-
         }
     }
 

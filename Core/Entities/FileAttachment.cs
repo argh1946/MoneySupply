@@ -23,6 +23,6 @@ namespace Core.Entities
 
        
         [Display(Name = "فایل")]
-        public byte[] FileArrey { get; set; }
+        public byte[]? FileArrey { get; set; }
     }
 }

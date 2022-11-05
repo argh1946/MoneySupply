@@ -1,5 +1,6 @@
 using AutoMapper;
 using Core.Contracts;
+using Core.Contracts.AtmCrs;
 using Core.DTOs;
 using Core.Entities;
 using Microsoft.AspNetCore.Cors.Infrastructure;

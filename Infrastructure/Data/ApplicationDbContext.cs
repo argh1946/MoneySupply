@@ -1,5 +1,7 @@
 ﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace Infrastructure.Data
 {
@@ -10,7 +12,7 @@ namespace Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+            //builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             builder.Entity<Status>().HasData
            (
                new Status { Id = 1, Title = "تایید نماینده پول رسان" },

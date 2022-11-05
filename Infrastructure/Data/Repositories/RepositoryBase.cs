@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Core.Contracts;
 using System.Linq.Expressions;
+using Core.Helper;
 
 namespace Infrastructure.Data.Repositories
 {
@@ -40,7 +41,7 @@ namespace Infrastructure.Data.Repositories
             {
                 query = orderBy(query);
             }
-            
+           
             return await query.AsNoTracking().ToListAsync();
         }
 

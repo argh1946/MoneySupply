@@ -29,6 +29,19 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FileType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MoneyType",
                 columns: table => new
                 {
@@ -164,13 +177,19 @@ namespace Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RequestId = table.Column<int>(type: "int", nullable: false),
+                    FileTypeId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FileType = table.Column<int>(type: "int", nullable: false),
-                    FileArrey = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
+                    FileArrey = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FileAttachment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FileAttachment_FileType_FileTypeId",
+                        column: x => x.FileTypeId,
+                        principalTable: "FileType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_FileAttachment_Request_RequestId",
                         column: x => x.RequestId,
@@ -188,7 +207,8 @@ namespace Infrastructure.Migrations
                     StatusId = table.Column<int>(type: "int", nullable: false),
                     RequestId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: true),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Editor = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -235,6 +255,11 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_FileAttachment_FileTypeId",
+                table: "FileAttachment",
+                column: "FileTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FileAttachment_RequestId",
                 table: "FileAttachment",
                 column: "RequestId");
@@ -265,6 +290,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "RequestStatus");
+
+            migrationBuilder.DropTable(
+                name: "FileType");
 
             migrationBuilder.DropTable(
                 name: "Request");

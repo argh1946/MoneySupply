@@ -11,6 +11,7 @@ namespace Core.Entities
 {
     public class Request : BaseTable
     {
+        public virtual ICollection<FileAttachment> FileAttachments { get; set; }
         public virtual int AtmCrsId { get; set; }
         public virtual AtmCrs AtmCrs { get; set; }
 

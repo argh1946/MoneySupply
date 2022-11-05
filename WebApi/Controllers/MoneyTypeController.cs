@@ -53,9 +53,9 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("[action]")]
-        public async Task<Result> DeleteMoneyTypeAsync(int id)
+        public  Result DeleteMoneyTypeAsync(int id)
         {
-            await _MoneyTypeService.DeleteAsync(id);
+             _MoneyTypeService.DeleteAsync(id);
             return Result.Ok();
         }
     }

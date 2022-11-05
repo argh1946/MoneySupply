@@ -63,7 +63,8 @@ namespace WebApi.Controllers
             request.CreatedDate = DateTime.Now;
             request.Creator = 0;
             request.StatusId = 1;
-            await _requestMoneySupplyService.AddAsync(request);
+            //await _requestMoneySupplyService.AddAsync(request);
+            await _requestMoneySupplyService.AddWithFileAsync(request);
             return Result.Ok();
         }
 

@@ -8,5 +8,7 @@ namespace Core.Contracts.Request
 {
     public interface IRequestMoneySupplyRepository : IAsyncGenericRepository<Entities.Request>
     {
+        Task AddWithFile(Entities.Request request);
     }
+        
 }

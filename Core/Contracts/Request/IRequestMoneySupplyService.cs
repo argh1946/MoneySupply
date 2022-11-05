@@ -3,6 +3,7 @@
     public interface IRequestMoneySupplyService
     {
         Task AddAsync(Entities.Request request);
+        Task AddWithFileAsync(Entities.Request request);
         Task Update(Entities.Request request);
         Task DeleteAsync(int id);
         Task<Entities.Request> GetByIdAsync(int id);

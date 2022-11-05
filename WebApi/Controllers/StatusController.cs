@@ -23,6 +23,14 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("[action]")]
+        public async Task<Result<PaginatedList<Status>>> GetAllPagedAsync()
+        {           
+            var data = await _StatusService.GetAllPagedAsync();
+            //var result = _mapper.Map<IEnumerable<PaginatedList<Status>>, IEnumerable<StatusVM>>(data);
+            return Result.Ok(data);
+        }
+        
+        [HttpGet("[action]")]
         public async Task<Result<IEnumerable<StatusVM>>> GetAllStatus()
         {           
             var data = await _StatusService.GetAllAsync();

@@ -1,5 +1,6 @@
 ﻿using Core.Contracts;
 using Core.Contracts.Request;
+using Core.Entities;
 
 namespace Core.UseCases
 {
@@ -58,6 +59,12 @@ namespace Core.UseCases
             item.ModifiedDate = DateTime.Now;
             await _uow.RequestStatusRepository.AddAsync(new Entities.RequestStatus() { RequestId = requestId, StatusId = 17, Description = des, DateTime = DateTime.Now });
             _uow.RequestMoneySupplyRepository.Update(item);
+            await _uow.CommitAsync();
+        }
+
+        public async Task AddWithFileAsync(Request request)
+        {
+            await _uow.RequestMoneySupplyRepository.AddWithFile(request);
             await _uow.CommitAsync();
         }
         #endregion

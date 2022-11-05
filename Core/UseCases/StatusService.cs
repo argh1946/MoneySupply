@@ -1,6 +1,7 @@
 ﻿using Core.Contracts;
 using Core.Contracts.Status;
 using Core.Entities;
+using Core.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,13 @@ namespace Core.UseCases
         {
             _uow = unitOfWork;
         }
+
+        public async Task<PaginatedList<Status>> GetAllPagedAsync()
+        {
+            var data = await _uow.StatusRepository.GetAllPagedAsync();
+            return data;
+        }
+
         public async Task<IEnumerable<Status>> GetAllAsync()
         {
             var data = await _uow.StatusRepository.GetAllAsync(null, x => x.OrderByDescending(x => x.Id));
