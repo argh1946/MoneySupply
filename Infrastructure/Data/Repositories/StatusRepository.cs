@@ -14,7 +14,7 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<PaginatedList<Status>> GetAllPagedAsync()
         {
-            return await _db.Status.PaginatedListAsync();
+            return await _db.Set<Status>().PaginatedListAsync();
         }
 
         public async Task<Status> GetSPByIdAsync(int id)
@@ -25,7 +25,7 @@ namespace Infrastructure.Data.Repositories
             {
                 new SqlParameter { ParameterName = "@Id", Value = id }
             };
-            var data = await _db.Status.FromSqlRaw<Status>(sql, parms.ToArray()).ToListAsync();
+            var data = await _db.Set<Status>().FromSqlRaw<Status>(sql, parms.ToArray()).ToListAsync();
             return data.FirstOrDefault();
         }
     }

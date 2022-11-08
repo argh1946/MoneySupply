@@ -6,6 +6,7 @@ using Core.Entities;
 using Core.Helper;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
+using UML;
 
 namespace WebApi.Controllers
 {
@@ -24,15 +25,16 @@ namespace WebApi.Controllers
 
         [HttpGet("[action]")]
         public async Task<Result<PaginatedList<Status>>> GetAllPagedAsync()
-        {           
+        {
+            var user = Common.CommonHelper.CurrentUserBranchCode;
             var data = await _StatusService.GetAllPagedAsync();
             //var result = _mapper.Map<IEnumerable<PaginatedList<Status>>, IEnumerable<StatusVM>>(data);
             return Result.Ok(data);
         }
-        
+
         [HttpGet("[action]")]
         public async Task<Result<IEnumerable<StatusVM>>> GetAllStatus()
-        {           
+        {
             var data = await _StatusService.GetAllAsync();
             var result = _mapper.Map<IEnumerable<Status>, IEnumerable<StatusVM>>(data);
             return Result.Ok(result);

@@ -10,6 +10,7 @@ using Core.Entities;
 using FluentValidation;
 using Validation;
 using Core.Contracts;
+using UML;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 try
@@ -35,6 +36,8 @@ try
     });
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
+    builder.Services.Configure<SsoUser.Uconfig>(builder.Configuration.GetSection("UMLConfig"));
 
     //------------------------------- IOC ------------------------------------
     builder.Services.Scan(current => current
@@ -81,6 +84,7 @@ try
     app.UseMiddleware<ExceptionMiddleware>();
     app.UseAuthorization();
     app.MapControllers();
+    app.UseMiddleware<UMLMiddleware>();
     app.Run();
 }
 catch (Exception exception)

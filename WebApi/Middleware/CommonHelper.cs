@@ -1,6 +1,4 @@
-﻿using Core.Common;
-using Core.DTOs;
-using System.Net.Http;
+﻿using Core.DTOs;
 using UML;
 
 namespace Common
@@ -45,16 +43,24 @@ namespace Common
         {
             get
             {
-                var user = CurrentUser;
-                if (user == null) return -1;
-                return (int)(long.Parse(user.Corporates.DescendantsAndSelf("l").ToArray()[0].Attribute("i").Value) % 100000);
+                //var user = CurrentUser;
 
-                //var user = CurrentUser;             
                 //if (user == null) return -1;
-                //long n = long.Parse(user.Corporates.DescendantsAndSelf("l").ToArray()[0].Attribute("i").Value);
-                //var ayandeh = Branches.FirstOrDefault(p => p.GhesmatkhedmatID == n);
-                //var result = ayandeh == null ? (int)(long.Parse(user.Corporates.DescendantsAndSelf("l").ToArray()[0].Attribute("i").Value) % 100000) : (int)ayandeh.Branch;
-                //return result;
+                //return (int)(long.Parse(user.Corporates.DescendantsAndSelf("l").ToArray()[0].Attribute("i").Value) % 100000);
+
+                var user = CurrentUser;
+                //#if DEBUG
+                //                return 136;
+                //#endif
+                //if (user == null || !user.HasPermission(UserPermission.PejvakBranchAccess.ToString())) return -1;
+                //return (int)(long.Parse(user.Corporates.DescendantsAndSelf("l").ToArray()[0].Attribute("i").Value) % 100000);
+
+                if (user == null) return -1;
+
+                long n = long.Parse(user.Corporates.DescendantsAndSelf("l").ToArray()[0].Attribute("i").Value);
+                var ayandeh = Branches.FirstOrDefault(p => p.GhesmatkhedmatID == n);
+                var result = ayandeh == null ? (int)(long.Parse(user.Corporates.DescendantsAndSelf("l").ToArray()[0].Attribute("i").Value) % 100000) : (int)ayandeh.Branch;
+                return result;
             }
         }
 
@@ -78,7 +84,7 @@ namespace Common
             var user = CurrentUser;
             if (user == null) return false;
             return user.HasPermission(p.ToString());
-        }
+        }     
 
 
         //public static SsoUser CurrentUser;
@@ -126,7 +132,6 @@ namespace Common
                 if (user == null) return -1;
                 return (int)(long.Parse(user.Corporates.DescendantsAndSelf("l").ToArray()[0].Attribute("i").Value) % 100000);
 
-                //var user = CurrentUser;             
                 //if (user == null) return -1;
                 //long n = long.Parse(user.Corporates.DescendantsAndSelf("l").ToArray()[0].Attribute("i").Value);
                 //var ayandeh = Branches.FirstOrDefault(p => p.GhesmatkhedmatID == n);

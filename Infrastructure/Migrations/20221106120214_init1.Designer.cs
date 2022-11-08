@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221102143002_init1")]
+    [Migration("20221106120214_init1")]
     partial class init1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -474,7 +474,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Status");
+                    b.ToTable("Status", (string)null);
 
                     b.HasData(
                         new

@@ -8,7 +8,7 @@ namespace Validation
         public StatusValidator()
         {
             // Check name is not null, empty and is between 1 and 250 characters
-            RuleFor(customer => customer.Title).NotNull().NotEmpty().Length(1, 10);
+            RuleFor(customer => customer.Title).NotNull().NotEmpty().WithMessage("تست").Length(1, 10).WithMessage("کمتر از 10");
             //RuleFor(customer => customer.LastName).NotNull().NotEmpty().Length(1, 250);
 
             //// Validate Phone with a custom error message

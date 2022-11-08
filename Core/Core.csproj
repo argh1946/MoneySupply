@@ -15,12 +15,15 @@
 
   <ItemGroup>
     <Compile Remove="Contracts\IUriService.cs" />
+    <Compile Remove="Helper\CommonHelper.cs" />
+    <Compile Remove="Helper\Enumeration.cs" />
     <Compile Remove="Helper\ResponseHelper.cs" />
     <Compile Remove="UseCases\UriService.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
