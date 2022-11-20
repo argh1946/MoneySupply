@@ -2,9 +2,6 @@
 using Core.Entities;
 using Core.Helper;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
-using System.Reflection.Emit;
-using static Core.Entities.Status;
 
 namespace Infrastructure.Data
 {

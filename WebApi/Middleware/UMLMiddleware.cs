@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization.Policy;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using UML;
+using System.Net.Http;
 
 namespace WebApi.Middleware
 {
@@ -19,14 +24,21 @@ namespace WebApi.Middleware
         }
 
         public async Task Invoke(HttpContext httpContext)
-        {
+        {           
+            // Allow Anonymous still wants to run authorization to populate the User but skips any failure/challenge handling
+            var endpoint = httpContext.GetEndpoint();
+            if (endpoint?.Metadata.GetMetadata<IAllowAnonymous>() != null)
+            {
+                await _next(httpContext);
+                return;
+            }
             if (!UML.Authorize(httpContext))
             {
                 //httpContext.Response.Redirect(UML.generateLoginRedirect(httpContext.Request.Host.Value, httpContext.Request.Path), true);
                 httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 return;
             }
-            await _next(httpContext);
+            await _next(httpContext);           
         }
     }
 

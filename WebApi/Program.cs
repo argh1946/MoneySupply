@@ -82,9 +82,9 @@ try
     }
 
     app.UseMiddleware<ExceptionMiddleware>();
-    app.UseAuthorization();
+    app.UseAuthorization().UseMiddleware<UMLMiddleware>();
     app.MapControllers();
-    app.UseMiddleware<UMLMiddleware>();
+   // app.UseUMLMiddleware();
     app.Run();
 }
 catch (Exception exception)

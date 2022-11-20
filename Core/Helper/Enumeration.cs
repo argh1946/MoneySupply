@@ -1,5 +1,5 @@
 ﻿
-namespace Core.Common
+namespace Core.Helper
 {
     public enum UserPermission
     {

@@ -5,11 +5,13 @@ using Core.DTOs;
 using Core.Entities;
 using Core.Helper;
 using FluentResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UML;
 
 namespace WebApi.Controllers
 {
+   // [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class StatusController : ControllerBase
@@ -23,14 +25,19 @@ namespace WebApi.Controllers
             _mapper = mapper;
         }
 
+        //[NeedPermission(UserPermission.FullAccess)]
+        //[AllowAnonymous]
         [HttpGet("[action]")]
         public async Task<Result<PaginatedList<Status>>> GetAllPagedAsync()
         {
-            var user = Common.CommonHelper.CurrentUserBranchCode;
+            Core.Helper.CommonHelper.CurrentUserBranchCode1();
+
+            var user = Core.Helper.CommonHelper.CurrentUserBranchCode;
             var data = await _StatusService.GetAllPagedAsync();
             //var result = _mapper.Map<IEnumerable<PaginatedList<Status>>, IEnumerable<StatusVM>>(data);
             return Result.Ok(data);
         }
+
 
         [HttpGet("[action]")]
         public async Task<Result<IEnumerable<StatusVM>>> GetAllStatus()
